@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">HatchWorksTest</string>
+    <string name="movies">Movies</string>
+    <string name="movie_detail">Movie detail</string>
+</resources>
