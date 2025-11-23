@@ -14,22 +14,24 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.esteban.movies.domain.model.MovieModel
-import dev.esteban.network.ResponseState
+import dev.esteban.movies.presentation.viewmodel.MoviesViewModel
 
 @Composable
 fun MoviesScreen(
     viewModel: MoviesViewModel = hiltViewModel(),
     goToDetail: (String) -> Unit
 ) {
-    val nowPlayingMoviesState by viewModel.nowPlayingMoviesStateFlow.collectAsStateWithLifecycle()
+    val homeMoviesStateFlow by viewModel.homeMoviesStateFlow.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        viewModel.getNowPlayingMovies()
+        viewModel.loadMovies()
     }
 
-
     Column(Modifier.fillMaxSize()) {
-        NowPlaying(nowPlayingMoviesState)
+
+        homeMoviesStateFlow.nowPlaying?.let {
+            NowPlaying(it)
+        }
 
         Text("Movie Screen")
 
@@ -41,32 +43,14 @@ fun MoviesScreen(
 
 @Composable
 fun NowPlaying(
-    nowPlayingMoviesState: ResponseState<List<MovieModel>>,
+    nowPlayingMovies: List<MovieModel>,
 ) {
-    when (nowPlayingMoviesState) {
-        is ResponseState.Loading -> {
-            Text("Loading")
-        }
-
-        is ResponseState.Success -> {
-            val response = nowPlayingMoviesState.response
-            LazyRow {
-                items(response) { movieItem ->
-                    Card {
-                        //TODO : add element to render view
-                        Text("Item " + movieItem.title)
-                    }
-                }
+    LazyRow {
+        items(nowPlayingMovies) { movieItem ->
+            Card {
+                //TODO : add element to render view
+                Text("Item " + movieItem.title)
             }
         }
-
-        is ResponseState.Error -> {
-            Text("Error")
-            //if (ordersState.errorType == ErrorType.NO_DATA) {
-//                LatestOrdersEmpty(navigateToHome = navigateToHome)
-//            }
-        }
-
-        else -> Unit
     }
 }

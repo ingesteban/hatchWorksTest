@@ -41,6 +41,7 @@ dependencies {
     implementation(project(":${libs.esteban.network.get().name}"))
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.viewmodel.ktx)
 
     // Retrofit
     implementation(libs.squareup.retrofit2)
