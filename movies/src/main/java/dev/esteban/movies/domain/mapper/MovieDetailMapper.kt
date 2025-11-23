@@ -55,7 +55,6 @@ class MovieDetailMapper @Inject constructor() :
         )
     }
 
-
     private fun mapCollectionInfo(input: NetworkCollectionInfoResponse): CollectionInfoModel {
         return CollectionInfoModel(
             id = input.id,
@@ -65,12 +64,6 @@ class MovieDetailMapper @Inject constructor() :
         )
     }
 
-    private fun mapGenre(input: NetworkGenreResponse): GenreModel {
-        return GenreModel(
-            id = input.id,
-            name = input.name
-        )
-    }
 
     private fun mapProductionCompany(input: NetworkProductionCompanyResponse): ProductionCompanyModel {
         return ProductionCompanyModel(
@@ -78,6 +71,13 @@ class MovieDetailMapper @Inject constructor() :
             logoPath = input.logoPath,
             name = input.name,
             originCountry = input.originCountry
+        )
+    }
+
+    private fun mapGenre(input: NetworkGenreResponse): GenreModel {
+        return GenreModel(
+            id = input.id,
+            name = input.name
         )
     }
 

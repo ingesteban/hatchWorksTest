@@ -14,11 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.esteban.movies.domain.model.MovieModel
-import dev.esteban.movies.presentation.viewmodel.MoviesViewModel
+import dev.esteban.movies.presentation.viewmodel.HomeViewModel
 
 @Composable
 fun MoviesScreen(
-    viewModel: MoviesViewModel = hiltViewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
     goToDetail: (String) -> Unit
 ) {
     val homeMoviesStateFlow by viewModel.homeMoviesStateFlow.collectAsStateWithLifecycle()

@@ -36,11 +36,6 @@ data class CollectionInfoModel(
     val backdropPath: String?
 )
 
-data class GenreModel(
-    val id: Int,
-    val name: String
-)
-
 data class ProductionCompanyModel(
     val id: Int,
     val logoPath: String?,

@@ -43,9 +43,11 @@ class MoviesRepositoryImpl @Inject constructor(
 
     override fun search(query: String): Flow<ResponseState<List<MovieModel>>> =
         fetchMovies { moviesDataSource.search(query) }
+            .startFlow(ResponseState.Loading)
 
     override fun discover(genres: String): Flow<ResponseState<List<MovieModel>>> =
         fetchMovies { moviesDataSource.discover(genres = genres) }
+            .startFlow(ResponseState.Loading)
 
     suspend override fun movieDetail(movieId: Int): Flow<ResponseState<MovieDetailModel>> = flow {
         emit(moviesDataSource.movieDetail(movieId))
@@ -61,5 +63,4 @@ class MoviesRepositoryImpl @Inject constructor(
     }.mapper(moviesMapper)
         .onError(NetworkErrorMapper())
         .flowOn(ioDispatcher)
-        .startFlow(ResponseState.Loading)
 }

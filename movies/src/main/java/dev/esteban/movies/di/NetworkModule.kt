@@ -4,6 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.esteban.movies.data.datasource.remote.genres.GenresDataSource
+import dev.esteban.movies.data.datasource.remote.genres.GenresDataSourceImpl
 import dev.esteban.movies.data.datasource.remote.movies.MoviesDataSource
 import dev.esteban.movies.data.datasource.remote.movies.MoviesDataSourceImpl
 
@@ -11,5 +13,8 @@ import dev.esteban.movies.data.datasource.remote.movies.MoviesDataSourceImpl
 @InstallIn(SingletonComponent::class)
 interface NetworkModule {
     @Binds
-    fun bindsRetrofitNetwork(moviesDataSourceImpl: MoviesDataSourceImpl): MoviesDataSource
+    fun bindsMoviesDataSource(moviesDataSourceImpl: MoviesDataSourceImpl): MoviesDataSource
+
+    @Binds
+    fun bindsGenresDataSource(genresDataSourceImpl: GenresDataSourceImpl): GenresDataSource
 }

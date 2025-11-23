@@ -57,12 +57,6 @@ data class NetworkCollectionInfoResponse(
 )
 
 @Serializable
-data class NetworkGenreResponse(
-    val id: Int,
-    val name: String
-)
-
-@Serializable
 data class NetworkProductionCompanyResponse(
     val id: Int,
     @SerialName("logo_path")

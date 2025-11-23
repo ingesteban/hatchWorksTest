@@ -8,6 +8,7 @@ object ConstantsURL {
     const val POPULAR = "movie/popular"
     const val DISCOVER = "discover/movie"
     const val MOVIE_DETAIL = "movie/{movie_id}"
+    const val GENRE_LIST = "genre/movie/list"
 }
 
 object ConstantsParameters {

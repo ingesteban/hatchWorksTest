@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.esteban.movies.domain.model.MovieDetailModel
 import dev.esteban.movies.domain.model.MovieModel
+import dev.esteban.movies.domain.repository.GenresRepository
 import dev.esteban.movies.domain.repository.MoviesRepository
 import dev.esteban.movies.presentation.model.HomeUIState
 import dev.esteban.network.ResponseState
@@ -18,8 +19,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MoviesViewModel @Inject constructor(private val moviesRepository: MoviesRepository) :
-    ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val moviesRepository: MoviesRepository,
+    private val genresRepository: GenresRepository,
+) : ViewModel() {
 
     private var searchJob: Job? = null
 
@@ -50,22 +53,25 @@ class MoviesViewModel @Inject constructor(private val moviesRepository: MoviesRe
             val popularDeferred = async { moviesRepository.popular().first() }
             val upcomingDeferred = async { moviesRepository.upcoming().first() }
             val nowPlayingDeferred = async { moviesRepository.nowPlaying().first() }
+            val genreListDeferred = async { genresRepository.genreList().first() }
 
             val trendingResult = trendingDeferred.await()
             val popularResult = popularDeferred.await()
             val upcomingResult = upcomingDeferred.await()
             val nowPlayingResult = nowPlayingDeferred.await()
+            val genreListResult = genreListDeferred.await()
             homeMoviesMutableStateFlow.value = homeMoviesStateFlow.value.copy(
                 isLoading = false,
                 trending = trendingResult.extractData(),
                 popular = popularResult.extractData(),
                 upcoming = upcomingResult.extractData(),
-                nowPlaying = nowPlayingResult.extractData()
+                nowPlaying = nowPlayingResult.extractData(),
+                genres = if (genreListResult is ResponseState.Success) genreListResult.response else emptyList(),
             )
         }
     }
 
-    fun searchedMovies(query: String) {
+    fun searchMovies(query: String) {
         searchJob?.cancel()
         if (query.isBlank()) {
             searchedMoviesMutableStateFlow.value = ResponseState.Idle
