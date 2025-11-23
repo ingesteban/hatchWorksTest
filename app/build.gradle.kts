@@ -45,6 +45,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":${libs.esteban.movies.get().name}"))
+    implementation(project(":${libs.esteban.network.get().name}"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

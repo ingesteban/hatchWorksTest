@@ -20,3 +20,20 @@ fun HatchWorksTestApp() {
     }
 }
 
+// | Hero Movie (backdrop grande, título, descripción)
+//GET /movie/now_playing
+
+// GET /trending/movie/day
+// GET /movie/popular
+// GET /movie/top_rated
+// GET /movie/now_playing
+// GET /movie/upcoming
+
+// GET /genre/movie/list
+// GET /discover/movie?with_genres={id}
+
+// GET /trending/movie/week
+// GET /search/movie?query=a
+
+// Categorías por sección
+// https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1

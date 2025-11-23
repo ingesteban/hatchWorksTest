@@ -3,9 +3,7 @@ package dev.esteban.hatchworkstest.screen.moviedetail
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
-import dev.esteban.hatchworkstest.R
 import dev.esteban.hatchworkstest.navigation.ScreenNavigation
-import dev.esteban.hatchworkstest.screen.TopBarState
 
 object MovieDetailNavigation : ScreenNavigation {
     private const val MOVIE_DETAIL = "movie_detail"
@@ -20,8 +18,6 @@ object MovieDetailNavigation : ScreenNavigation {
         val movieId = navBackStackEntry.arguments?.getString(MOVIE_ID) ?: "no content get"
         MovieDetailScreen(movieId)
     }
-
-    override val topBar = TopBarState(R.string.movie_detail, true)
 
     fun movieRoute(id: String) = "$MOVIE_DETAIL/$id"
 }

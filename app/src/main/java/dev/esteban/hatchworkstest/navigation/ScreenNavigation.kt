@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
-import dev.esteban.hatchworkstest.screen.TopBarState
 import dev.esteban.hatchworkstest.screen.moviedetail.MovieDetailNavigation
 import dev.esteban.hatchworkstest.screen.movies.MoviesNavigation
 
@@ -20,8 +19,6 @@ interface ScreenNavigation {
     val route: String
 
     val arguments: List<NamedNavArgument> get() = emptyList()
-
-    val topBar: TopBarState
 
     @Composable
     fun Content(

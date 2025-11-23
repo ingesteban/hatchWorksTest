@@ -13,8 +13,9 @@ ksp = "2.0.21-1.0.27"
 hiltLifecycle = "1.3.0"
 navigationCompose = "2.9.6"
 serialization = "1.7.3"
-appcompat = "1.6.1"
-material = "1.10.0"
+retrofit = "3.0.0"
+okhttp3Logging = "4.12.0"
+serializationConverter = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -37,8 +38,12 @@ androidx-hilt-lifecycle-viewmodel-compose = { group = "androidx.hilt", name = "h
 google-dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt" }
 google-dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "daggerHilt" }
 google-dagger-hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "daggerHilt" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+squareup-retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+okhttp3-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3Logging" }
+kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "serializationConverter" }
+
+esteban-network = { group = "esteban.dev", name = "network" }
+esteban-movies = { group = "esteban.dev", name = "movies" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "HatchWorksTest"
 include(":app")
 include(":movies")
+include(":network")

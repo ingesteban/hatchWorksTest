@@ -6,7 +6,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import dev.esteban.hatchworkstest.navigation.graph.moviesGraph
-import dev.esteban.hatchworkstest.screen.TopBarState
 import dev.esteban.hatchworkstest.screen.movies.MoviesNavigation
 
 @Composable
