@@ -59,15 +59,16 @@ dependencies {
     implementation(libs.androidx.compose.ui.util)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pager.indicators)
 
     // coil
     implementation(libs.coil)
     implementation(libs.coil.compose)
 
-    // navigation
+    //navigation
     implementation(libs.androidx.navigation.compose)
 
-    // serialization
+    //serialization
     implementation(libs.kotlinx.serialization)
 
     // Dagger hilt
