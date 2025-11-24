@@ -11,7 +11,7 @@ sealed class ResponseState<out T> {
     data class Success<T>(val response: T) : ResponseState<T>()
 
     data class Error(
-        val errorType: ErrorType,
+        val errorType: ErrorType = ErrorType.DEFAULT,
         val errorBody: ErrorBody? = null,
         val httpErrorCode: Int = NON_HTTP_EXCEPTION,
     ) : ResponseState<Nothing>()

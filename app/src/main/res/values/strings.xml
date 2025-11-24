@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">HatchWorksTest</string>
-    <string name="movies">Movies</string>
-    <string name="movie_detail">Movie detail</string>
+    <string name="categories">Categories</string>
+    <string name="trending">Trending</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="see_all">See all</string>
+
+    <string name="search_for_a_movie">Search for a movie</string>
 </resources>

@@ -17,3 +17,7 @@ object ConstantsParameters {
     const val WITH_GENRES = "with_genres"
     const val MOVIE_ID = "movie_id"
 }
+
+object ConstantsUtils {
+    const val IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
+}

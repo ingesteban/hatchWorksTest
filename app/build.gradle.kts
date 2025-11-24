@@ -56,16 +56,24 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.ui.util)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.accompanist.pager)
 
-    //navigation
+    // coil
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
+
+    // navigation
     implementation(libs.androidx.navigation.compose)
 
-    //serialization
+    // serialization
     implementation(libs.kotlinx.serialization)
 
     // Dagger hilt
     implementation(libs.google.dagger.hilt.android)
     implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
+    implementation(libs.constraintlayout.compose)
     ksp(libs.google.dagger.hilt.compiler)
     ksp(libs.google.dagger.hilt.android.compiler)
 

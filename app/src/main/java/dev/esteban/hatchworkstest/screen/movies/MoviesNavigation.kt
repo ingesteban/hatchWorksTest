@@ -5,6 +5,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import dev.esteban.hatchworkstest.navigation.ScreenNavigation
 import dev.esteban.hatchworkstest.screen.moviedetail.MovieDetailNavigation
+import dev.esteban.hatchworkstest.screen.moviessearch.MovieSearchNavigation
 
 object MoviesNavigation : ScreenNavigation {
     override val route = "movies"
@@ -14,8 +15,23 @@ object MoviesNavigation : ScreenNavigation {
         navController: NavController,
         navBackStackEntry: NavBackStackEntry
     ) {
-        MoviesScreen { movieId ->
-            navController.navigate(MovieDetailNavigation.movieRoute(movieId))
-        }
+        MoviesScreen(
+            navigateToSeeAll = {
+
+            },
+            onClickGenre = {
+
+            },
+            navigateToSearchMovie = {
+                navController.navigate(MovieSearchNavigation.route)
+            },
+            navigateToMovieDetail = { movieId ->
+                navController.navigate(MovieDetailNavigation.movieRoute(movieId))
+            }
+        )
     }
+}
+
+enum class MoviesType {
+    Trending, NowPaying, UpComing
 }

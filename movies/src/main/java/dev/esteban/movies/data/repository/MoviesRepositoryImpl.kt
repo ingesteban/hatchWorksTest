@@ -15,6 +15,7 @@ import dev.esteban.network.mapper
 import dev.esteban.network.onError
 import dev.esteban.network.startFlow
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -59,6 +60,7 @@ class MoviesRepositoryImpl @Inject constructor(
     private fun fetchMovies(
         serviceCall: suspend () -> NetworkMoviesResponse
     ): Flow<ResponseState<List<MovieModel>>> = flow {
+        delay(3000)
         emit(serviceCall())
     }.mapper(moviesMapper)
         .onError(NetworkErrorMapper())

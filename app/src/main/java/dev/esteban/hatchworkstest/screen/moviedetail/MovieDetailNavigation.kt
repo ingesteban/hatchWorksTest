@@ -15,7 +15,7 @@ object MovieDetailNavigation : ScreenNavigation {
         navController: NavController,
         navBackStackEntry: NavBackStackEntry
     ) {
-        val movieId = navBackStackEntry.arguments?.getString(MOVIE_ID) ?: "no content get"
+        val movieId = navBackStackEntry.arguments?.getString(MOVIE_ID) ?: ""
         MovieDetailScreen(movieId)
     }
 

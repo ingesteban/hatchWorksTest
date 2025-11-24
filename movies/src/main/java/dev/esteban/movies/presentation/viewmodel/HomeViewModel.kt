@@ -9,6 +9,7 @@ import dev.esteban.movies.domain.repository.GenresRepository
 import dev.esteban.movies.domain.repository.MoviesRepository
 import dev.esteban.movies.presentation.model.HomeUIState
 import dev.esteban.network.ResponseState
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,27 +48,40 @@ class HomeViewModel @Inject constructor(
 
     fun loadMovies() {
         viewModelScope.launch {
-            homeMoviesMutableStateFlow.value = homeMoviesStateFlow.value.copy(isLoading = true)
-
             val trendingDeferred = async { moviesRepository.trending().first() }
             val popularDeferred = async { moviesRepository.popular().first() }
             val upcomingDeferred = async { moviesRepository.upcoming().first() }
             val nowPlayingDeferred = async { moviesRepository.nowPlaying().first() }
             val genreListDeferred = async { genresRepository.genreList().first() }
 
-            val trendingResult = trendingDeferred.await()
-            val popularResult = popularDeferred.await()
-            val upcomingResult = upcomingDeferred.await()
-            val nowPlayingResult = nowPlayingDeferred.await()
-            val genreListResult = genreListDeferred.await()
-            homeMoviesMutableStateFlow.value = homeMoviesStateFlow.value.copy(
-                isLoading = false,
-                trending = trendingResult.extractData(),
-                popular = popularResult.extractData(),
-                upcoming = upcomingResult.extractData(),
-                nowPlaying = nowPlayingResult.extractData(),
-                genres = if (genreListResult is ResponseState.Success) genreListResult.response else emptyList(),
-            )
+            handleDeferredResult(trendingDeferred) { movies, currentState ->
+                currentState.copy(trending = movies)
+            }
+            handleDeferredResult(popularDeferred) { movies, currentState ->
+                currentState.copy(popular = movies)
+            }
+            handleDeferredResult(upcomingDeferred) { movies, currentState ->
+                currentState.copy(upcoming = movies)
+            }
+            handleDeferredResult(nowPlayingDeferred) { movies, currentState ->
+                currentState.copy(nowPlaying = movies)
+            }
+            handleDeferredResult(genreListDeferred) { genres, currentState ->
+                currentState.copy(genres = genres)
+            }
+        }
+    }
+
+    private suspend fun <T> handleDeferredResult(
+        deferred: Deferred<ResponseState<T>>,
+        stateUpdater: (ResponseState<T>, HomeUIState) -> HomeUIState
+    ) {
+        try {
+            homeMoviesMutableStateFlow.value =
+                stateUpdater(deferred.await(), homeMoviesStateFlow.value)
+        } catch (_: Exception) {
+            homeMoviesMutableStateFlow.value =
+                stateUpdater(ResponseState.Error(), homeMoviesStateFlow.value)
         }
     }
 
