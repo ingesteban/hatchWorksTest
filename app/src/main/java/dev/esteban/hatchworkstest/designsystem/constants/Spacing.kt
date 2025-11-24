@@ -12,7 +12,9 @@ object Spacing {
     val xl = 20.dp
     val xxl = 32.dp
     val xxl2 = 40.dp
+    val xxl3 = 60.dp
     val xxxl = 75.dp
     val xxxxl = 180.dp
+    val xxxxl2 = 220.dp
     val xxxxxl = 270.dp
 }

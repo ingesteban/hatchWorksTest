@@ -24,6 +24,7 @@ fun HatchTertiaryButton(
     textStyle: TextStyle = LocalHatchWorksTestTypography.current.mdMedium,
     modifier: Modifier = Modifier,
     imageVector: ImageVector? = null,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     onClick: () -> Unit
 ) {
     Button(
@@ -37,7 +38,7 @@ fun HatchTertiaryButton(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
+            horizontalArrangement = horizontalArrangement,
             modifier = Modifier.fillMaxWidth()
         ) {
             imageVector?.let {

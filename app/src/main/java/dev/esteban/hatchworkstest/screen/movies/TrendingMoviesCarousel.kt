@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -34,7 +33,7 @@ import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import androidx.constraintlayout.compose.layoutId
-import coil.compose.AsyncImage
+import dev.esteban.hatchworkstest.designsystem.components.HatchAsyncImage
 import dev.esteban.hatchworkstest.designsystem.components.Shimmer
 import dev.esteban.hatchworkstest.designsystem.constants.Float.F0
 import dev.esteban.hatchworkstest.designsystem.constants.Float.F0075
@@ -154,10 +153,9 @@ fun TrendingMoviesCarousel(
                             }
                     ) {
                         Box(contentAlignment = Alignment.BottomCenter) {
-                            AsyncImage(
-                                model = popularMovies[page].backdropPath,
+                            HatchAsyncImage(
+                                path = popularMovies[page].backdropPath,
                                 contentDescription = popularMovies[page].title,
-                                contentScale = ContentScale.Crop,
                                 modifier = Modifier.fillMaxSize()
                             )
                             Text(

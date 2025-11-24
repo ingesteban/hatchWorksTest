@@ -25,7 +25,6 @@ class HomeViewModel @Inject constructor(
     private val genresRepository: GenresRepository,
 ) : ViewModel() {
 
-    private var searchJob: Job? = null
 
     private val homeMoviesMutableStateFlow: MutableStateFlow<HomeUIState> =
         MutableStateFlow(HomeUIState())
@@ -35,11 +34,6 @@ class HomeViewModel @Inject constructor(
         MutableStateFlow(ResponseState.Idle)
     val moviesByGenreStateFlow: StateFlow<ResponseState<List<MovieModel>>> =
         moviesByGenreMutableStateFlow.asStateFlow()
-
-    private val searchedMoviesMutableStateFlow: MutableStateFlow<ResponseState<List<MovieModel>>> =
-        MutableStateFlow(ResponseState.Idle)
-    val searchedMoviesStateFlow: StateFlow<ResponseState<List<MovieModel>>> =
-        searchedMoviesMutableStateFlow.asStateFlow()
 
     private val movieDetailMutableStateFlow: MutableStateFlow<ResponseState<MovieDetailModel>> =
         MutableStateFlow(ResponseState.Idle)
@@ -82,36 +76,6 @@ class HomeViewModel @Inject constructor(
         } catch (_: Exception) {
             homeMoviesMutableStateFlow.value =
                 stateUpdater(ResponseState.Error(), homeMoviesStateFlow.value)
-        }
-    }
-
-    fun searchMovies(query: String) {
-        searchJob?.cancel()
-        if (query.isBlank()) {
-            searchedMoviesMutableStateFlow.value = ResponseState.Idle
-            return
-        }
-        searchJob = viewModelScope.launch {
-            moviesRepository.search(query)
-                .collect { response ->
-                    when (response) {
-                        is ResponseState.Idle -> {
-                            // NO_OP
-                        }
-
-                        is ResponseState.Loading -> searchedMoviesMutableStateFlow.emit(
-                            ResponseState.Loading
-                        )
-
-                        is ResponseState.Success -> searchedMoviesMutableStateFlow.emit(
-                            response
-                        )
-
-                        is ResponseState.Error -> searchedMoviesMutableStateFlow.emit(
-                            response
-                        )
-                    }
-                }
         }
     }
 
@@ -163,9 +127,5 @@ class HomeViewModel @Inject constructor(
                     }
                 }
         }
-    }
-
-    private fun ResponseState<List<MovieModel>>.extractData(): List<MovieModel> {
-        return if (this is ResponseState.Success) this.response else emptyList()
     }
 }

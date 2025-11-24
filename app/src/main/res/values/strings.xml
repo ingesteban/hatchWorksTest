@@ -5,6 +5,9 @@
     <string name="now_playing">Now Playing</string>
     <string name="upcoming">Upcoming</string>
     <string name="see_all">See all</string>
-
+    <string name="no_image_provided">No image\nProvided</string>
+    <string name="no_results_title">No Results Found</string>
+    <string name="no_results_description">We couldn\'t find any movies matching your search. Try adjusting your filters or using different keywords.</string>
+    <string name="no_results_button">Clear Search</string>
     <string name="search_for_a_movie">Search for a movie</string>
 </resources>

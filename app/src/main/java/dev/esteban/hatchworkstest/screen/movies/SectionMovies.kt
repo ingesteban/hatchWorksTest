@@ -22,12 +22,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
-import coil.compose.AsyncImage
+import dev.esteban.hatchworkstest.designsystem.components.HatchAsyncImage
 import dev.esteban.hatchworkstest.designsystem.components.Shimmer
 import dev.esteban.hatchworkstest.designsystem.constants.IntValues.INITIAL_0
 import dev.esteban.hatchworkstest.designsystem.constants.IntValues.LOADING_ITEMS
@@ -80,10 +79,9 @@ fun SectionMoviesContent(
                                 }
                                 append(" (${movieItem.voteAverage})")
                             }
-                            AsyncImage(
-                                model = movieItem.posterPath,
+                            HatchAsyncImage(
+                                path = movieItem.posterPath,
                                 contentDescription = null,
-                                contentScale = ContentScale.FillBounds,
                                 modifier = Modifier
                                     .clip(shape = RoundedCornerShape(sm))
                                     .width(xxxxl)
