@@ -22,6 +22,12 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Run Ktlint Check (Code Style)
+        run: ./gradlew ktlintCheck
+
+      - name: Run Android Lint (Code Quality)
+        run: ./gradlew lintDebug
+
       - name: Run Unit Tests & Generate Coverage
         run: ./gradlew koverHtmlReport
 
@@ -32,3 +38,10 @@ jobs:
           name: kover-report-html
           path: app/build/reports/kover/html/
           retention-days: 7
+
+      - name: Upload Lint Report
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: lint-report
+          path: app/build/reports/lint-results-debug.html
