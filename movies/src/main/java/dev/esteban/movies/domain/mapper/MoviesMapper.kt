@@ -1,6 +1,7 @@
 package dev.esteban.movies.domain.mapper
 
-import dev.esteban.movies.ConstantsUtils.IMAGE_URL
+import dev.esteban.movies.ConstantsUtils.IMAGE_URL_BACKDROP
+import dev.esteban.movies.ConstantsUtils.IMAGE_URL_POSTER
 import dev.esteban.movies.data.datasource.remote.model.NetworkMovieResponse
 import dev.esteban.movies.data.datasource.remote.model.NetworkMoviesResponse
 import dev.esteban.movies.domain.model.MovieModel
@@ -26,8 +27,8 @@ class MoviesMapper @Inject constructor() :
         overview = movieResponse.overview,
         video = movieResponse.video,
         adult = movieResponse.adult,
-        posterPath = IMAGE_URL + movieResponse.posterPath,
-        backdropPath = IMAGE_URL + movieResponse.backdropPath,
+        posterPath = IMAGE_URL_POSTER + movieResponse.posterPath,
+        backdropPath = IMAGE_URL_BACKDROP + movieResponse.backdropPath,
         genreIds = movieResponse.genreIds,
         originalLanguage = movieResponse.originalLanguage,
         popularity = movieResponse.popularity,

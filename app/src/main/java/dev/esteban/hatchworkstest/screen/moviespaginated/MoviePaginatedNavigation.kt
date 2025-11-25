@@ -37,9 +37,8 @@ object MoviePaginatedNavigation : ScreenNavigation {
         MoviesPaginatedScreen(
             type = type,
             genres = genresId,
-            onBack = { navController.popBackStack() },
-            navigateToMovieDetail = { movieId ->
-                navController.navigate(MovieDetailNavigation.movieRoute(movieId))
+            navigateToMovieDetail = { movieId, movieTitle ->
+                navController.navigate(MovieDetailNavigation.movieRoute(movieId, movieTitle))
             },
         )
     }

@@ -19,5 +19,6 @@ object ConstantsParameters {
 }
 
 object ConstantsUtils {
-    const val IMAGE_URL = "https://image.tmdb.org/t/p/w500/"
+    const val IMAGE_URL_POSTER = "https://image.tmdb.org/t/p/w500/"
+    const val IMAGE_URL_BACKDROP = "https://image.tmdb.org/t/p/w1280/"
 }

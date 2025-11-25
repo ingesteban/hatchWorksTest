@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.esteban.movies.domain.model.MovieModel
-import dev.esteban.movies.domain.repository.GenresRepository
 import dev.esteban.movies.domain.repository.MoviesRepository
 import dev.esteban.network.ResponseState
 import kotlinx.coroutines.Job

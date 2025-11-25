@@ -51,6 +51,6 @@ interface MoviesApi {
 
     @GET(MOVIE_DETAIL)
     suspend fun movieDetail(
-        @Path(MOVIE_ID) movieId: Int
+        @Path(MOVIE_ID) movieId: String
     ): NetworkMovieDetailResponse
 }

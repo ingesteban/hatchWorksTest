@@ -23,11 +23,11 @@ import dev.esteban.movies.domain.model.MovieModel
 @Composable
 fun GenericMovieItem(
     movie: MovieModel,
-    navigateToMovieDetail: (String) -> Unit
+    navigateToMovieDetail: (String, String) -> Unit,
 ) {
     Card(
         modifier = Modifier.clickable {
-            navigateToMovieDetail(movie.id.toString())
+            navigateToMovieDetail(movie.id.toString(), movie.title)
         }
     ) {
         Box(

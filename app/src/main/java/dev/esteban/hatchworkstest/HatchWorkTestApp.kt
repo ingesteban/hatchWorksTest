@@ -15,11 +15,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import dev.esteban.hatchworkstest.designsystem.theme.LocalHatchWorksTestTypography
+import dev.esteban.hatchworkstest.designsystem.theme.HatchWorksTestTheme
 import dev.esteban.hatchworkstest.navigation.AppNavHost
-import dev.esteban.hatchworkstest.screen.moviedetail.MovieDetailNavigation
-import dev.esteban.hatchworkstest.screen.movies.MoviesNavigation
-import dev.esteban.hatchworkstest.screen.moviespaginated.MoviePaginatedNavigation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,7 +31,7 @@ fun HatchWorksTestApp() {
                     title = {
                         Text(
                             text = title,
-                            style = LocalHatchWorksTestTypography.current.lgBold
+                            style = HatchWorksTestTheme.typography.lgBold
                         )
                     },
                     navigationIcon = {

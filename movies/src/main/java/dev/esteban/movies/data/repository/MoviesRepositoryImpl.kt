@@ -58,7 +58,7 @@ class MoviesRepositoryImpl @Inject constructor(
         fetchMovies { moviesDataSource.discover(genres = genres) }
             .startFlow(ResponseState.Loading)
 
-    override suspend fun movieDetail(movieId: Int): Flow<ResponseState<MovieDetailModel>> = flow {
+    override suspend fun movieDetail(movieId: String): Flow<ResponseState<MovieDetailModel>> = flow {
         emit(moviesDataSource.movieDetail(movieId))
     }.mapper(movieDetailMapper)
         .onError(NetworkErrorMapper())

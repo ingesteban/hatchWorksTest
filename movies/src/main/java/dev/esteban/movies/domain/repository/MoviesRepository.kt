@@ -20,7 +20,7 @@ interface MoviesRepository {
 
     fun discover(genres: String): Flow<ResponseState<List<MovieModel>>>
 
-    suspend fun movieDetail(movieId: Int): Flow<ResponseState<MovieDetailModel>>
+    suspend fun movieDetail(movieId: String): Flow<ResponseState<MovieDetailModel>>
 
     fun getMoviesPagingByType(
         type: MoviesEndpointType,

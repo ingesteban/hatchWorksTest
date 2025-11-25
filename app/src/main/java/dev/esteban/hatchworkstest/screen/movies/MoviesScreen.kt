@@ -30,7 +30,7 @@ import dev.esteban.movies.util.MoviesEndpointType
 fun MoviesScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToMoviesPaginated: (MoviesEndpointType, String?, String?) -> Unit,
-    navigateToMovieDetail: (String) -> Unit,
+    navigateToMovieDetail: (String, String) -> Unit,
     navigateToSearchMovie: () -> Unit,
 ) {
     val homeMoviesStateFlow by viewModel.homeMoviesStateFlow.collectAsStateWithLifecycle()
@@ -68,7 +68,11 @@ fun MoviesScreen(
             SectionCategories(
                 genreState = homeMoviesStateFlow.genres,
                 onClickGenre = { genreModel ->
-                    navigateToMoviesPaginated(MoviesEndpointType.GENRE, genreModel.id.toString(), genreModel.name)
+                    navigateToMoviesPaginated(
+                        MoviesEndpointType.GENRE,
+                        genreModel.id.toString(),
+                        genreModel.name
+                    )
                 }
             )
         }
@@ -81,7 +85,8 @@ fun MoviesScreen(
         ) {
             SectionMoviesContent(
                 stateMovies = homeMoviesStateFlow.trending,
-                navigateToMovieDetail = navigateToMovieDetail
+                navigateToMovieDetail = navigateToMovieDetail,
+                onRetryClick = { viewModel.loadMovies() }
             )
         }
 
@@ -93,7 +98,8 @@ fun MoviesScreen(
         ) {
             SectionMoviesContent(
                 stateMovies = homeMoviesStateFlow.nowPlaying,
-                navigateToMovieDetail = navigateToMovieDetail
+                navigateToMovieDetail = navigateToMovieDetail,
+                onRetryClick = { viewModel.loadMovies() }
             )
         }
 
@@ -105,7 +111,8 @@ fun MoviesScreen(
         ) {
             SectionMoviesContent(
                 stateMovies = homeMoviesStateFlow.upcoming,
-                navigateToMovieDetail = navigateToMovieDetail
+                navigateToMovieDetail = navigateToMovieDetail,
+                onRetryClick = { viewModel.loadMovies() }
             )
         }
     }

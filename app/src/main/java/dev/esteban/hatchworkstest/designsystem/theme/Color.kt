@@ -22,6 +22,7 @@ val AccentGreen = Color(0xFF6FC905)
 
 val LightPurple10 = Color(0xFFE4DFF5)
 val DarkPurple10 = Color(0xFF3E21C9)
+val Error = Color(0xFFE53935)
 
 
 data class HatchWorksTestColors(
@@ -31,7 +32,8 @@ data class HatchWorksTestColors(
     val tertiary: Color,
     val onTertiary: Color,
     val background: Color,
-    val darkGray2: Color
+    val darkGray2: Color,
+    val error: Color,
 )
 
 val DarkColors = HatchWorksTestColors(
@@ -41,7 +43,8 @@ val DarkColors = HatchWorksTestColors(
     tertiary = DarkPurple,
     onTertiary = LightPurple10,
     background = DarkBackground,
-    darkGray2 = LightGrayText
+    darkGray2 = LightGrayText,
+    error = Error,
 )
 
 val LightColors = HatchWorksTestColors(
@@ -51,7 +54,8 @@ val LightColors = HatchWorksTestColors(
     tertiary = LightPurple,
     onTertiary = DarkPurple10,
     background = PureWhite,
-    darkGray2 = MediumGrayText
+    darkGray2 = MediumGrayText,
+    error = Error,
 )
 
 val lightColorScheme = lightColorScheme(
@@ -61,6 +65,7 @@ val lightColorScheme = lightColorScheme(
     tertiary = LightColors.tertiary,
     onTertiary = LightColors.onTertiary,
     background = LightColors.background,
+    error = LightColors.error,
     surface = PureWhite,
     onSurface = NearBlack,
 )
@@ -72,6 +77,7 @@ val darkColorScheme = darkColorScheme(
     tertiary = DarkColors.tertiary,
     onTertiary = DarkColors.onTertiary,
     background = DarkColors.background,
+    error = LightColors.error,
     surface = DarkGray,
     onSurface = PureWhite,
 )

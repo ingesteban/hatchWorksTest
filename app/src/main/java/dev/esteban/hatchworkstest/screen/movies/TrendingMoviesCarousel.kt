@@ -62,7 +62,7 @@ import kotlin.math.absoluteValue
 @Composable
 fun TrendingMoviesCarousel(
     stateMovies: ResponseState<List<MovieModel>>,
-    navigateToMovieDetail: (String) -> Unit,
+    navigateToMovieDetail: (String, String) -> Unit,
 ) {
     val screenWidth = getScreenWidth()
     val cardWidth = screenWidth * F085
@@ -124,6 +124,7 @@ fun TrendingMoviesCarousel(
             ) { page ->
                 val distance = (scrollOffset - page).absoluteValue
                 val progress = distance.coerceIn(F0, F1)
+                val movie = popularMovies[page]
                 MotionLayout(
                     motionScene = motionScene,
                     progress = progress,
@@ -142,7 +143,7 @@ fun TrendingMoviesCarousel(
                         elevation = CardDefaults.cardElevation(defaultElevation = sm),
                         modifier = Modifier
                             .clickable {
-                                navigateToMovieDetail(popularMovies[page].id.toString())
+                                navigateToMovieDetail(movie.id.toString(), movie.title)
                             }
                             .layoutId("card")
                             .clip(LocalHatchWorksTestShape.current.medium)
@@ -154,12 +155,12 @@ fun TrendingMoviesCarousel(
                     ) {
                         Box(contentAlignment = Alignment.BottomCenter) {
                             HatchAsyncImage(
-                                path = popularMovies[page].backdropPath,
-                                contentDescription = popularMovies[page].title,
+                                path = movie.backdropPath,
+                                contentDescription = movie.title,
                                 modifier = Modifier.fillMaxSize()
                             )
                             Text(
-                                text = popularMovies[page].title,
+                                text = movie.title,
                                 style = LocalHatchWorksTestTypography.current.lgMedium,
                                 color = LocalHatchWorksTestColors.current.onTertiary,
                                 modifier = Modifier

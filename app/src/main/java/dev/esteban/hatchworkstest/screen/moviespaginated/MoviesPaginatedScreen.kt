@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Button
@@ -22,11 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import dev.esteban.hatchworkstest.designsystem.components.CircularLoading
 import dev.esteban.hatchworkstest.designsystem.components.GenericMovieItem
 import dev.esteban.hatchworkstest.designsystem.components.LoadingWheel
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.sm
-import dev.esteban.movies.domain.model.MovieModel
 import dev.esteban.movies.presentation.viewmodel.MoviesViewModel
 import dev.esteban.movies.util.MoviesEndpointType
 
@@ -35,13 +32,11 @@ fun MoviesPaginatedScreen(
     moviesViewModel: MoviesViewModel = hiltViewModel(),
     type: MoviesEndpointType,
     genres: String? = null,
-    onBack: () -> Unit,
-    navigateToMovieDetail: (String) -> Unit,
+    navigateToMovieDetail: (String, String) -> Unit,
 ) {
     val movies = moviesViewModel
         .movies(type, genres)
         .collectAsLazyPagingItems()
-
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
@@ -72,7 +67,6 @@ fun MoviesPaginatedScreen(
         }
     }
 }
-
 
 @Composable
 fun LoadingMoreItem() {

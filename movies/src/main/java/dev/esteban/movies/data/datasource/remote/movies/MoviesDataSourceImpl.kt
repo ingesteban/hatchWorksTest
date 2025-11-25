@@ -21,5 +21,5 @@ class MoviesDataSourceImpl @Inject constructor(retrofitBuilder: RetrofitBuilder)
 
     override suspend fun discover(genres: String) = networkApi.discover(genres = genres)
 
-    override suspend fun movieDetail(movieId: Int) = networkApi.movieDetail(movieId = movieId)
+    override suspend fun movieDetail(movieId: String) = networkApi.movieDetail(movieId = movieId)
 }

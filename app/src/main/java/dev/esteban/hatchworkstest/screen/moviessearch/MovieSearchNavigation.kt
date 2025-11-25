@@ -5,7 +5,6 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import dev.esteban.hatchworkstest.navigation.ScreenNavigation
 import dev.esteban.hatchworkstest.screen.moviedetail.MovieDetailNavigation
-import dev.esteban.hatchworkstest.screen.moviespaginated.MoviePaginatedNavigation
 
 object MovieSearchNavigation : ScreenNavigation {
     override val route = "movie_search"
@@ -18,8 +17,8 @@ object MovieSearchNavigation : ScreenNavigation {
     ) {
         setTitle(null)
         MoviesSearchScreen(
-            navigateToMovieDetail = { movieId ->
-                navController.navigate(MovieDetailNavigation.movieRoute(movieId))
+            navigateToMovieDetail = { movieId, movieTitle ->
+                navController.navigate(MovieDetailNavigation.movieRoute(movieId, movieTitle))
             },
             onClose = {
                 navController.popBackStack()

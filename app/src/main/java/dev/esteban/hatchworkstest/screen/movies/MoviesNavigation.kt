@@ -31,8 +31,8 @@ object MoviesNavigation : ScreenNavigation {
             navigateToSearchMovie = {
                 navController.navigate(MovieSearchNavigation.route)
             },
-            navigateToMovieDetail = { movieId ->
-                navController.navigate(MovieDetailNavigation.movieRoute(movieId))
+            navigateToMovieDetail = { movieId, movieName ->
+                navController.navigate(MovieDetailNavigation.movieRoute(movieId, movieName))
             }
         )
     }

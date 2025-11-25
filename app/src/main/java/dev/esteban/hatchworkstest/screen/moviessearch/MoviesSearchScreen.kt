@@ -49,9 +49,6 @@ import dev.esteban.hatchworkstest.designsystem.constants.Spacing.xs
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.xxl
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.xxxxl
 import dev.esteban.hatchworkstest.designsystem.theme.HatchWorksTestTheme
-import dev.esteban.hatchworkstest.designsystem.theme.LocalHatchWorksTestColors
-import dev.esteban.hatchworkstest.designsystem.theme.LocalHatchWorksTestShape
-import dev.esteban.hatchworkstest.designsystem.theme.LocalHatchWorksTestTypography
 import dev.esteban.movies.domain.model.MovieModel
 import dev.esteban.movies.presentation.viewmodel.SearchViewModel
 import dev.esteban.network.ResponseState
@@ -60,13 +57,13 @@ import kotlinx.coroutines.delay
 @Composable
 fun MoviesSearchScreen(
     searchViewModel: SearchViewModel = hiltViewModel(),
-    navigateToMovieDetail: (String) -> Unit,
+    navigateToMovieDetail: (String, String) -> Unit,
     onClose: () -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     var query by remember { mutableStateOf("") }
-    val colors = LocalHatchWorksTestColors.current
+    val colors = HatchWorksTestTheme.colors
     val searchedMoviesStateFlow by searchViewModel.searchedMoviesStateFlow.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
@@ -88,11 +85,11 @@ fun MoviesSearchScreen(
                 .fillMaxWidth()
                 .padding(lg)
                 .focusRequester(focusRequester)
-                .clip(LocalHatchWorksTestShape.current.extraExtraLarge),
+                .clip(HatchWorksTestTheme.shapes.extraExtraLarge),
             placeholder = {
                 Text(
                     text = stringResource(R.string.search_for_a_movie),
-                    style = LocalHatchWorksTestTypography.current.lgBold
+                    style = HatchWorksTestTheme.typography.lgBold
                 )
             },
             leadingIcon = {
@@ -145,7 +142,7 @@ fun MoviesSearchScreen(
 private fun MoviesList(
     query: String,
     stateMovies: ResponseState<List<MovieModel>>,
-    navigateToMovieDetail: (String) -> Unit,
+    navigateToMovieDetail: (String, String) -> Unit,
     onClearSearch: () -> Unit
 ) {
     when (stateMovies) {
@@ -170,7 +167,7 @@ private fun MoviesList(
 @Composable
 private fun GenericMoviesGrid(
     movies: List<MovieModel>,
-    navigateToMovieDetail: (String) -> Unit
+    navigateToMovieDetail: (String, String) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
@@ -194,7 +191,7 @@ private fun NoResults(
     ) {
         Text(
             text = stringResource(R.string.no_results_title),
-            style = LocalHatchWorksTestTypography.current.xlgBold,
+            style = HatchWorksTestTheme.typography.xlgBold,
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
@@ -202,7 +199,7 @@ private fun NoResults(
         )
         Text(
             text = stringResource(R.string.no_results_description),
-            style = LocalHatchWorksTestTypography.current.mdRegular,
+            style = HatchWorksTestTheme.typography.mdRegular,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )

@@ -10,4 +10,3 @@ enum class MoviesEndpointType {
 
 fun String.toMoviesEndpointType(): MoviesEndpointType =
     MoviesEndpointType.entries.find { it.name == this } ?: MoviesEndpointType.NONE
-

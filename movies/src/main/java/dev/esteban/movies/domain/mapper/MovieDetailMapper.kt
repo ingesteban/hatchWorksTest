@@ -1,6 +1,7 @@
 package dev.esteban.movies.domain.mapper
 
-import dev.esteban.movies.ConstantsUtils.IMAGE_URL
+import dev.esteban.movies.ConstantsUtils.IMAGE_URL_BACKDROP
+import dev.esteban.movies.ConstantsUtils.IMAGE_URL_POSTER
 import dev.esteban.movies.data.datasource.remote.model.NetworkCollectionInfoResponse
 import dev.esteban.movies.data.datasource.remote.model.NetworkGenreResponse
 import dev.esteban.movies.data.datasource.remote.model.NetworkMovieDetailResponse
@@ -28,7 +29,7 @@ class MovieDetailMapper @Inject constructor() :
     fun mapDetailToDomain(input: NetworkMovieDetailResponse): MovieDetailModel {
         return MovieDetailModel(
             adult = input.adult,
-            backdropPath = IMAGE_URL + input.backdropPath,
+            backdropPath = IMAGE_URL_BACKDROP + input.backdropPath,
             belongsToCollection = input.belongsToCollection?.let { mapCollectionInfo(it) },
             budget = input.budget,
             genres = input.genres.map { mapGenre(it) },
@@ -40,7 +41,7 @@ class MovieDetailMapper @Inject constructor() :
             originalTitle = input.originalTitle,
             overview = input.overview,
             popularity = input.popularity,
-            posterPath = IMAGE_URL + input.posterPath,
+            posterPath = IMAGE_URL_POSTER + input.posterPath,
             productionCompanies = input.productionCompanies.map { mapProductionCompany(it) },
             productionCountries = input.productionCountries.map { mapProductionCountry(it) },
             releaseDate = input.releaseDate,
@@ -60,16 +61,15 @@ class MovieDetailMapper @Inject constructor() :
         return CollectionInfoModel(
             id = input.id,
             name = input.name,
-            posterPath = IMAGE_URL + input.posterPath,
-            backdropPath = IMAGE_URL + input.backdropPath
+            posterPath = IMAGE_URL_POSTER + input.posterPath,
+            backdropPath = IMAGE_URL_BACKDROP + input.backdropPath
         )
     }
-
 
     private fun mapProductionCompany(input: NetworkProductionCompanyResponse): ProductionCompanyModel {
         return ProductionCompanyModel(
             id = input.id,
-            logoPath = input.logoPath,
+            logoPath = IMAGE_URL_POSTER + input.logoPath,
             name = input.name,
             originCountry = input.originCountry
         )

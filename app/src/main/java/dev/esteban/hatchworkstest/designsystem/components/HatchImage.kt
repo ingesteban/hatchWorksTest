@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.ContentScale.Companion
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -26,12 +27,13 @@ import dev.esteban.hatchworkstest.designsystem.theme.HatchWorksTestTheme
 fun HatchAsyncImage(
     path: String?,
     contentDescription: String? = null,
+    contentScale: ContentScale = ContentScale.FillBounds,
     modifier: Modifier = Modifier
 ) {
     SubcomposeAsyncImage(
         model = path,
         contentDescription = contentDescription,
-        contentScale = ContentScale.FillBounds,
+        contentScale = contentScale,
         modifier = modifier,
         loading = { LoadingWheel() },
         error = { HatchNoImage() },

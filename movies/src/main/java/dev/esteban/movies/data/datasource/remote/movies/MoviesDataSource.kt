@@ -10,5 +10,5 @@ interface MoviesDataSource {
     suspend fun upcoming(): NetworkMoviesResponse
     suspend fun popular(): NetworkMoviesResponse
     suspend fun discover(genres: String): NetworkMoviesResponse
-    suspend fun movieDetail(movieId: Int): NetworkMovieDetailResponse
+    suspend fun movieDetail(movieId: String): NetworkMovieDetailResponse
 }

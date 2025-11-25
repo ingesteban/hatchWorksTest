@@ -10,4 +10,13 @@
     <string name="no_results_description">We couldn\'t find any movies matching your search. Try adjusting your filters or using different keywords.</string>
     <string name="no_results_button">Clear Search</string>
     <string name="search_for_a_movie">Search for a movie</string>
+    <string name="release">Release</string>
+    <string name="status">Status</string>
+    <string name="popularity">Popularity</string>
+    <string name="overview">Overview</string>
+    <string name="key_details">Key Details</string>
+    <string name="companies">Companies</string>
+    <string name="error_title_default">Something Went Wrong</string>
+    <string name="error_message_default">We couldn\'t load the data. Please check your internet connection and try again.</string>
+    <string name="button_retry">Retry</string>
 </resources>

@@ -26,6 +26,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
+import dev.esteban.hatchworkstest.designsystem.components.GenericErrorScreen
 import dev.esteban.hatchworkstest.designsystem.components.HatchAsyncImage
 import dev.esteban.hatchworkstest.designsystem.components.Shimmer
 import dev.esteban.hatchworkstest.designsystem.constants.IntValues.INITIAL_0
@@ -34,19 +35,19 @@ import dev.esteban.hatchworkstest.designsystem.constants.Spacing.lg
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.sm
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.xxxxl
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.xxxxxl
-import dev.esteban.hatchworkstest.designsystem.theme.LocalHatchWorksTestColors
-import dev.esteban.hatchworkstest.designsystem.theme.LocalHatchWorksTestShape
-import dev.esteban.hatchworkstest.designsystem.theme.LocalHatchWorksTestTypography
+import dev.esteban.hatchworkstest.designsystem.theme.HatchWorksTestTheme
+
 import dev.esteban.movies.domain.model.MovieModel
 import dev.esteban.network.ResponseState
 
 @Composable
 fun SectionMoviesContent(
     stateMovies: ResponseState<List<MovieModel>>,
-    navigateToMovieDetail: (String) -> Unit,
+    navigateToMovieDetail: (String, String) -> Unit,
+    onRetryClick: () -> Unit,
 ) {
     when (stateMovies) {
-        is ResponseState.Error -> Text("Error")
+        is ResponseState.Error -> GenericErrorScreen(onRetryClick = onRetryClick)
         is ResponseState.Loading -> SectionMoviesShimmer()
         is ResponseState.Success -> {
             LazyRow {
@@ -65,14 +66,14 @@ fun SectionMoviesContent(
                             .padding(horizontal = sm)
                     }
                     Card(modifier = cardModifier.clickable {
-                        navigateToMovieDetail(movieItem.id.toString())
+                        navigateToMovieDetail(movieItem.id.toString(), movieItem.title)
                     }) {
-                        Column(modifier = Modifier.background(LocalHatchWorksTestColors.current.background)) {
+                        Column(modifier = Modifier.background(HatchWorksTestTheme.colors.background)) {
                             val annotatedString = buildAnnotatedString {
                                 withStyle(
                                     style = SpanStyle(
-                                        fontStyle = LocalHatchWorksTestTypography.current.smMedium.fontStyle,
-                                        color = LocalHatchWorksTestColors.current.primary
+                                        fontStyle = HatchWorksTestTheme.typography.smMedium.fontStyle,
+                                        color = HatchWorksTestTheme.colors.primary
                                     )
                                 ) {
                                     append(movieItem.voteCount.toString())
@@ -94,7 +95,7 @@ fun SectionMoviesContent(
                             ) {
                                 Text(
                                     text = movieItem.title,
-                                    style = LocalHatchWorksTestTypography.current.mdRegular,
+                                    style = HatchWorksTestTheme.typography.mdRegular,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
                                 )
@@ -102,12 +103,12 @@ fun SectionMoviesContent(
                                     Icon(
                                         imageVector = Icons.Outlined.Star,
                                         contentDescription = null,
-                                        tint = LocalHatchWorksTestColors.current.primary,
+                                        tint = HatchWorksTestTheme.colors.primary,
                                         modifier = Modifier.size(lg)
                                     )
                                     Text(
                                         text = annotatedString,
-                                        style = LocalHatchWorksTestTypography.current.smRegular
+                                        style = HatchWorksTestTheme.typography.smRegular
                                     )
                                 }
                             }
@@ -129,7 +130,7 @@ private fun SectionMoviesShimmer() {
         items(LOADING_ITEMS) {
             Shimmer(
                 modifier = Modifier
-                    .clip(LocalHatchWorksTestShape.current.large)
+                    .clip(HatchWorksTestTheme.shapes.large)
                     .height(xxxxxl)
                     .width(xxxxl)
                     .fillMaxWidth()
