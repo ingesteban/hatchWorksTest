@@ -42,6 +42,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.viewmodel.ktx)
+    implementation(libs.androidx.paging.common)
 
     // Retrofit
     implementation(libs.squareup.retrofit2)

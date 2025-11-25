@@ -6,6 +6,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import dev.esteban.hatchworkstest.screen.moviedetail.MovieDetailNavigation
 import dev.esteban.hatchworkstest.screen.movies.MoviesNavigation
+import dev.esteban.hatchworkstest.screen.moviespaginated.MoviePaginatedNavigation
 import dev.esteban.hatchworkstest.screen.moviessearch.MovieSearchNavigation
 
 interface ScreenNavigation {
@@ -14,7 +15,8 @@ interface ScreenNavigation {
         val movies = listOf(
             MoviesNavigation,
             MovieDetailNavigation,
-            MovieSearchNavigation
+            MovieSearchNavigation,
+            MoviePaginatedNavigation,
         )
     }
 
@@ -25,6 +27,7 @@ interface ScreenNavigation {
     @Composable
     fun Content(
         navController: NavController,
-        navBackStackEntry: NavBackStackEntry
+        navBackStackEntry: NavBackStackEntry,
+        setTitle: (String?) -> Unit
     )
 }

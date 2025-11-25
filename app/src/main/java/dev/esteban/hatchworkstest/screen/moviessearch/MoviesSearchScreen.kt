@@ -1,13 +1,9 @@
 package dev.esteban.hatchworkstest.screen.moviessearch
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -24,7 +20,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -40,14 +35,12 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.esteban.hatchworkstest.R
-import dev.esteban.hatchworkstest.designsystem.components.HatchAsyncImage
+import dev.esteban.hatchworkstest.designsystem.components.GenericMovieItem
 import dev.esteban.hatchworkstest.designsystem.components.HatchTertiaryButton
 import dev.esteban.hatchworkstest.designsystem.components.LoadingWheel
-import dev.esteban.hatchworkstest.designsystem.constants.Float.F08
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.lg
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.md
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.sm
@@ -55,7 +48,6 @@ import dev.esteban.hatchworkstest.designsystem.constants.Spacing.xl
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.xs
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.xxl
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.xxxxl
-import dev.esteban.hatchworkstest.designsystem.constants.Spacing.xxxxl2
 import dev.esteban.hatchworkstest.designsystem.theme.HatchWorksTestTheme
 import dev.esteban.hatchworkstest.designsystem.theme.LocalHatchWorksTestColors
 import dev.esteban.hatchworkstest.designsystem.theme.LocalHatchWorksTestShape
@@ -162,50 +154,32 @@ private fun MoviesList(
             if (stateMovies.response.isEmpty() && query.isNotEmpty()) {
                 NoResults(onClearSearch)
             } else {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(3),
-                    contentPadding = PaddingValues(sm),
-                    verticalArrangement = Arrangement.spacedBy(sm),
-                    horizontalArrangement = Arrangement.spacedBy(sm)
-                ) {
-                    items(stateMovies.response.size) { index ->
-                        val movieItem = stateMovies.response[index]
-                        Card(
-                            modifier = Modifier.clickable {
-                                navigateToMovieDetail(movieItem.id.toString())
-                            }
-                        ) {
-                            Box(
-                                contentAlignment = Alignment.BottomCenter,
-                                modifier = Modifier.background(LocalHatchWorksTestColors.current.background)
-                            ) {
-                                HatchAsyncImage(
-                                    path = movieItem.posterPath,
-                                    modifier = Modifier.height(xxxxl2)
-                                )
-                                Text(
-                                    text = movieItem.title,
-                                    style = LocalHatchWorksTestTypography.current.lgMedium,
-                                    color = LocalHatchWorksTestColors.current.onTertiary,
-                                    maxLines = 2,
-                                    overflow = TextOverflow.Ellipsis,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(
-                                            LocalHatchWorksTestColors.current.tertiary.copy(alpha = F08)
-                                        )
-                                        .padding(vertical = xs),
-                                    textAlign = TextAlign.Center
-                                )
-                            }
-                        }
-                    }
-                }
+                GenericMoviesGrid(
+                    movies = stateMovies.response,
+                    navigateToMovieDetail = navigateToMovieDetail
+                )
             }
         }
 
         else -> {
             // NO_OP
+        }
+    }
+}
+
+@Composable
+private fun GenericMoviesGrid(
+    movies: List<MovieModel>,
+    navigateToMovieDetail: (String) -> Unit
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(3),
+        contentPadding = PaddingValues(sm),
+        verticalArrangement = Arrangement.spacedBy(sm),
+        horizontalArrangement = Arrangement.spacedBy(sm)
+    ) {
+        items(movies.size) { index ->
+            GenericMovieItem(movies[index], navigateToMovieDetail)
         }
     }
 }

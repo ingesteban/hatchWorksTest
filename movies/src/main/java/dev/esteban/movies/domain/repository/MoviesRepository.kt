@@ -1,5 +1,7 @@
 package dev.esteban.movies.domain.repository
 
+import androidx.paging.PagingData
+import dev.esteban.movies.util.MoviesEndpointType
 import dev.esteban.movies.domain.model.MovieDetailModel
 import dev.esteban.movies.domain.model.MovieModel
 import dev.esteban.network.ResponseState
@@ -19,4 +21,9 @@ interface MoviesRepository {
     fun discover(genres: String): Flow<ResponseState<List<MovieModel>>>
 
     suspend fun movieDetail(movieId: Int): Flow<ResponseState<MovieDetailModel>>
+
+    fun getMoviesPagingByType(
+        type: MoviesEndpointType,
+        genres: String?
+    ): Flow<PagingData<MovieModel>>
 }

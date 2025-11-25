@@ -13,8 +13,10 @@ object MovieDetailNavigation : ScreenNavigation {
     @Composable
     override fun Content(
         navController: NavController,
-        navBackStackEntry: NavBackStackEntry
+        navBackStackEntry: NavBackStackEntry,
+        setTitle: (String?) -> Unit
     ) {
+        setTitle("Movie Detail")
         val movieId = navBackStackEntry.arguments?.getString(MOVIE_ID) ?: ""
         MovieDetailScreen(movieId)
     }

@@ -1,8 +1,14 @@
 package dev.esteban.movies.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import dev.esteban.movies.data.datasource.remote.model.NetworkMoviesResponse
 import dev.esteban.movies.data.datasource.remote.movies.MoviesDataSource
+import dev.esteban.movies.data.datasource.remote.movies.paging.MoviesPagingSourceFactory
+import dev.esteban.movies.util.MoviesEndpointType
 import dev.esteban.movies.domain.mapper.MovieDetailMapper
+import dev.esteban.movies.domain.mapper.MovieMapper
 import dev.esteban.movies.domain.mapper.MoviesMapper
 import dev.esteban.movies.domain.model.MovieDetailModel
 import dev.esteban.movies.domain.model.MovieModel
@@ -25,9 +31,11 @@ import javax.inject.Singleton
 @Singleton
 class MoviesRepositoryImpl @Inject constructor(
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
+    private val moviesPagingSourceFactory: MoviesPagingSourceFactory,
     private val moviesDataSource: MoviesDataSource,
     private val moviesMapper: MoviesMapper,
     private val movieDetailMapper: MovieDetailMapper,
+    private val movieMapper: MovieMapper,
 ) : MoviesRepository {
 
     override fun nowPlaying(): Flow<ResponseState<List<MovieModel>>> =
@@ -50,7 +58,7 @@ class MoviesRepositoryImpl @Inject constructor(
         fetchMovies { moviesDataSource.discover(genres = genres) }
             .startFlow(ResponseState.Loading)
 
-    suspend override fun movieDetail(movieId: Int): Flow<ResponseState<MovieDetailModel>> = flow {
+    override suspend fun movieDetail(movieId: Int): Flow<ResponseState<MovieDetailModel>> = flow {
         emit(moviesDataSource.movieDetail(movieId))
     }.mapper(movieDetailMapper)
         .onError(NetworkErrorMapper())
@@ -65,4 +73,16 @@ class MoviesRepositoryImpl @Inject constructor(
     }.mapper(moviesMapper)
         .onError(NetworkErrorMapper())
         .flowOn(ioDispatcher)
+
+    override fun getMoviesPagingByType(
+        type: MoviesEndpointType,
+        genres: String?
+    ): Flow<PagingData<MovieModel>> = Pager(
+        config = PagingConfig(pageSize = 20),
+        pagingSourceFactory = {
+            moviesPagingSourceFactory.create(type, genres)
+        }
+    ).flow
+        .mapper(movieMapper)
+
 }

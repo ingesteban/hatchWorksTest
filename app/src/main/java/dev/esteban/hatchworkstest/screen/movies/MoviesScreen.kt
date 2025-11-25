@@ -23,16 +23,15 @@ import dev.esteban.hatchworkstest.designsystem.components.SectionContainer
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.lg
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.xxl2
 import dev.esteban.hatchworkstest.designsystem.theme.LocalHatchWorksTestTypography
-import dev.esteban.movies.domain.model.GenreModel
 import dev.esteban.movies.presentation.viewmodel.HomeViewModel
+import dev.esteban.movies.util.MoviesEndpointType
 
 @Composable
 fun MoviesScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    navigateToSeeAll: (MoviesType) -> Unit,
+    navigateToMoviesPaginated: (MoviesEndpointType, String?, String?) -> Unit,
     navigateToMovieDetail: (String) -> Unit,
     navigateToSearchMovie: () -> Unit,
-    onClickGenre: (GenreModel) -> Unit
 ) {
     val homeMoviesStateFlow by viewModel.homeMoviesStateFlow.collectAsStateWithLifecycle()
 
@@ -68,14 +67,16 @@ fun MoviesScreen(
         ) {
             SectionCategories(
                 genreState = homeMoviesStateFlow.genres,
-                onClickGenre = onClickGenre
+                onClickGenre = { genreModel ->
+                    navigateToMoviesPaginated(MoviesEndpointType.GENRE, genreModel.id.toString(), genreModel.name)
+                }
             )
         }
 
         SectionContainer(
             titleSting = R.string.trending,
             navigateToSeeAll = {
-                navigateToSeeAll(MoviesType.Trending)
+                navigateToMoviesPaginated(MoviesEndpointType.TRENDING, null, null)
             }
         ) {
             SectionMoviesContent(
@@ -87,7 +88,7 @@ fun MoviesScreen(
         SectionContainer(
             titleSting = R.string.now_playing,
             navigateToSeeAll = {
-                navigateToSeeAll(MoviesType.NowPaying)
+                navigateToMoviesPaginated(MoviesEndpointType.NOW_PLAYING, null, null)
             }
         ) {
             SectionMoviesContent(
@@ -99,7 +100,7 @@ fun MoviesScreen(
         SectionContainer(
             titleSting = R.string.upcoming,
             navigateToSeeAll = {
-                navigateToSeeAll(MoviesType.UpComing)
+                navigateToMoviesPaginated(MoviesEndpointType.UPCOMING, null, null)
             }
         ) {
             SectionMoviesContent(
@@ -109,5 +110,3 @@ fun MoviesScreen(
         }
     }
 }
-
-
