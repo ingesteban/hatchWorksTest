@@ -1,4 +1,7 @@
 **HatchWorksTest Project Description**
+
+[Video of App behavior](https://github.com/ingesteban/hatchWorksTest/blob/main/hatchWorksTest.mp4)
+
 1. Project Modularization: The application is structured into 3 main modules:
 * __App__: Handles the Presentation Layer (Activity, Composable screens, Navigation & Design system).
 * __Network__: Contains utility classes for managing Dispatchers, Network & Error.
