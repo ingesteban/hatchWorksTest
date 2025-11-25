@@ -4,6 +4,38 @@ plugins {
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kover)
+}
+
+kover {
+    reports {
+        filters {
+            excludes {
+                classes(
+                    "*.BuildConfig",
+                    "*.R",
+                    "*.R$*",
+                    "dagger.hilt.*",
+                    "hilt_aggregated_deps.*",
+                    "*_Factory",
+                    "*_HiltModules*",
+                    "*_MembersInjector",
+                    "*_Provide*",
+                    "*ComposableSingletons$*",
+                    "*HatchWorksTestApp_HiltComponents*",
+                    "*HatchWorksTestApplication_HiltComponents*",
+                )
+
+                packages("dev.esteban.movies.di")
+            }
+        }
+
+        verify {
+            rule {
+                minBound(80)
+            }
+        }
+    }
 }
 
 android {
