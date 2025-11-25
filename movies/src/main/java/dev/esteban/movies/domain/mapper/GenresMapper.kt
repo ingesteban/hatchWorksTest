@@ -9,16 +9,15 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GenresMapper @Inject constructor() :
-    Mapper<NetworkGenresResponse, ResponseState<List<GenreModel>>> {
-    override fun apply(input: NetworkGenresResponse): ResponseState<List<GenreModel>> {
-        return ResponseState.Success(input.genres.map { mapGenre(it) })
-    }
+class GenresMapper
+    @Inject
+    constructor() : Mapper<NetworkGenresResponse, ResponseState<List<GenreModel>>> {
+        override fun apply(input: NetworkGenresResponse): ResponseState<List<GenreModel>> =
+            ResponseState.Success(input.genres.map { mapGenre(it) })
 
-    private fun mapGenre(input: NetworkGenreResponse): GenreModel {
-        return GenreModel(
-            id = input.id,
-            name = input.name
-        )
+        private fun mapGenre(input: NetworkGenreResponse): GenreModel =
+            GenreModel(
+                id = input.id,
+                name = input.name,
+            )
     }
-}

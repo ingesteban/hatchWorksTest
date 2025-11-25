@@ -13,7 +13,7 @@ object MovieSearchNavigation : ScreenNavigation {
     override fun Content(
         navController: NavController,
         navBackStackEntry: NavBackStackEntry,
-        setTitle: (String?) -> Unit
+        setTitle: (String?) -> Unit,
     ) {
         setTitle(null)
         MoviesSearchScreen(
@@ -22,7 +22,7 @@ object MovieSearchNavigation : ScreenNavigation {
             },
             onClose = {
                 navController.popBackStack()
-            }
+            },
         )
     }
 }

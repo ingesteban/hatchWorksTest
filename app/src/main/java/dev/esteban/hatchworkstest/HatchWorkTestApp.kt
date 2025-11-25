@@ -32,24 +32,25 @@ fun HatchWorksTestApp() {
                     title = {
                         Text(
                             text = title,
-                            style = HatchWorksTestTheme.typography.lgBold
+                            style = HatchWorksTestTheme.typography.lgBold,
                         )
                     },
                     navigationIcon = {
                         IconButton(onClick = { navController.popBackStack() }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "Localized description"
+                                contentDescription = "Localized description",
                             )
                         }
                     },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = HatchWorksTestTheme.colors.tertiary,
-                        titleContentColor = HatchWorksTestTheme.colors.onTertiary
-                    )
+                    colors =
+                        TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = HatchWorksTestTheme.colors.tertiary,
+                            titleContentColor = HatchWorksTestTheme.colors.onTertiary,
+                        ),
                 )
             }
-        }
+        },
     ) { innerPadding ->
         AppNavHost(
             navController = navController,

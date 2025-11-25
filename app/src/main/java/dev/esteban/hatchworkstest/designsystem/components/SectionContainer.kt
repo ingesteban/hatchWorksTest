@@ -24,28 +24,29 @@ fun SectionContainer(
     titleSting: Int,
     navigateToSeeAll: () -> Unit = { },
     showSeeAllButton: Boolean = true,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     Column(modifier = Modifier.padding(all = lg)) {
         Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = stringResource(titleSting),
                 style = LocalHatchWorksTestTypography.current.lgMedium,
-                modifier = Modifier.padding(bottom = lg)
+                modifier = Modifier.padding(bottom = lg),
             )
 
             if (showSeeAllButton) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .clickable {
-                            navigateToSeeAll()
-                        }
+                    modifier =
+                        Modifier
+                            .clickable {
+                                navigateToSeeAll()
+                            },
                 ) {
                     Text(
                         text = stringResource(R.string.see_all),
                         textDecoration = TextDecoration.Underline,
-                        style = LocalHatchWorksTestTypography.current.mdMedium
+                        style = LocalHatchWorksTestTypography.current.mdMedium,
                     )
                     Icon(
                         imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,

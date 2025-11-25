@@ -25,46 +25,52 @@ private const val SHIMMER_COLOR_ALPHA_02 = 0.2f
 
 @Composable
 fun Shimmer(modifier: Modifier) {
-
     val colorLightGrey = LightGray
 
-    val shimmerColors = listOf(
-        colorLightGrey.copy(alpha = SHIMMER_COLOR_ALPHA_06),
-        colorLightGrey.copy(alpha = SHIMMER_COLOR_ALPHA_02),
-        colorLightGrey.copy(alpha = SHIMMER_COLOR_ALPHA_06),
-    )
+    val shimmerColors =
+        listOf(
+            colorLightGrey.copy(alpha = SHIMMER_COLOR_ALPHA_06),
+            colorLightGrey.copy(alpha = SHIMMER_COLOR_ALPHA_02),
+            colorLightGrey.copy(alpha = SHIMMER_COLOR_ALPHA_06),
+        )
 
     val infiniteTransition = rememberInfiniteTransition()
-    val translateAnimation = infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = SHIMMER_DURATION),
-            repeatMode = RepeatMode.Restart
+    val translateAnimation =
+        infiniteTransition.animateFloat(
+            initialValue = 0f,
+            targetValue = 1f,
+            animationSpec =
+                infiniteRepeatable(
+                    animation = tween(durationMillis = SHIMMER_DURATION),
+                    repeatMode = RepeatMode.Restart,
+                ),
         )
-    )
 
     Box(modifier = modifier.clip(RoundedCornerShape(4.dp))) {
         BoxWithConstraints(modifier = Modifier.matchParentSize()) {
             val widthPx = with(LocalDensity.current) { this@BoxWithConstraints.maxWidth.toPx() }
             val shimmerWidthPx = widthPx * 1f
 
-            val brush = Brush.linearGradient(
-                colors = shimmerColors,
-                start = Offset(
-                    x = translateAnimation.value * (widthPx + shimmerWidthPx) - shimmerWidthPx,
-                    y = 0f
-                ),
-                end = Offset(
-                    x = translateAnimation.value * (widthPx + shimmerWidthPx),
-                    y = 0f
+            val brush =
+                Brush.linearGradient(
+                    colors = shimmerColors,
+                    start =
+                        Offset(
+                            x = translateAnimation.value * (widthPx + shimmerWidthPx) - shimmerWidthPx,
+                            y = 0f,
+                        ),
+                    end =
+                        Offset(
+                            x = translateAnimation.value * (widthPx + shimmerWidthPx),
+                            y = 0f,
+                        ),
                 )
-            )
 
             Spacer(
-                modifier = Modifier
-                    .matchParentSize()
-                    .background(brush)
+                modifier =
+                    Modifier
+                        .matchParentSize()
+                        .background(brush),
             )
         }
     }

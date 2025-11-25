@@ -8,18 +8,21 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MoviesPagingSourceFactory @Inject constructor(val moviesApi: MoviesApi) {
-    fun create(
-        type: MoviesEndpointType,
-        genres: String? = null
-    ): PagingSource<Int, NetworkMovieResponse> {
-        return MoviesPagingSource { page ->
-            when (type) {
-                MoviesEndpointType.TRENDING -> moviesApi.trending(page)
-                MoviesEndpointType.UPCOMING -> moviesApi.upcoming(page)
-                MoviesEndpointType.GENRE -> moviesApi.discover(page = page, genres = genres ?: "")
-                else -> moviesApi.nowPlaying(page)
+class MoviesPagingSourceFactory
+    @Inject
+    constructor(
+        val moviesApi: MoviesApi,
+    ) {
+        fun create(
+            type: MoviesEndpointType,
+            genres: String? = null,
+        ): PagingSource<Int, NetworkMovieResponse> =
+            MoviesPagingSource { page ->
+                when (type) {
+                    MoviesEndpointType.TRENDING -> moviesApi.trending(page)
+                    MoviesEndpointType.UPCOMING -> moviesApi.upcoming(page)
+                    MoviesEndpointType.GENRE -> moviesApi.discover(page = page, genres = genres ?: "")
+                    else -> moviesApi.nowPlaying(page)
+                }
             }
-        }
     }
-}

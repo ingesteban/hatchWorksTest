@@ -9,7 +9,6 @@ import org.junit.Before
 import org.junit.Test
 
 class GenresMapperTest {
-
     private lateinit var mapper: GenresMapper
 
     @Before
@@ -19,12 +18,14 @@ class GenresMapperTest {
 
     @Test
     fun `convert valid genres correctly`() {
-        val response = NetworkGenresResponse(
-            genres = listOf(
-                NetworkGenreResponse(id = 1, name = "Action"),
-                NetworkGenreResponse(id = 2, name = "Drama")
+        val response =
+            NetworkGenresResponse(
+                genres =
+                    listOf(
+                        NetworkGenreResponse(id = 1, name = "Action"),
+                        NetworkGenreResponse(id = 2, name = "Drama"),
+                    ),
             )
-        )
 
         val result = mapper.apply(response)
 
@@ -52,11 +53,13 @@ class GenresMapperTest {
 
     @Test
     fun `convert minimal genre data`() {
-        val response = NetworkGenresResponse(
-            genres = listOf(
-                NetworkGenreResponse(id = 0, name = "")
+        val response =
+            NetworkGenresResponse(
+                genres =
+                    listOf(
+                        NetworkGenreResponse(id = 0, name = ""),
+                    ),
             )
-        )
         val result = mapper.apply(response)
         val success = result as ResponseState.Success
         val genre = success.response.first()
@@ -67,11 +70,13 @@ class GenresMapperTest {
 
     @Test
     fun `handle multiple genres consistently`() {
-        val response = NetworkGenresResponse(
-            genres = (1..5).map {
-                NetworkGenreResponse(id = it, name = "Genre $it")
-            }
-        )
+        val response =
+            NetworkGenresResponse(
+                genres =
+                    (1..5).map {
+                        NetworkGenreResponse(id = it, name = "Genre $it")
+                    },
+            )
 
         val result = mapper.apply(response)
         val success = result as ResponseState.Success
@@ -84,11 +89,13 @@ class GenresMapperTest {
 
     @Test
     fun `verify mapped values integrity`() {
-        val response = NetworkGenresResponse(
-            genres = listOf(
-                NetworkGenreResponse(id = 10, name = "Fantasy")
+        val response =
+            NetworkGenresResponse(
+                genres =
+                    listOf(
+                        NetworkGenreResponse(id = 10, name = "Fantasy"),
+                    ),
             )
-        )
 
         val result = mapper.apply(response)
         val success = result as ResponseState.Success

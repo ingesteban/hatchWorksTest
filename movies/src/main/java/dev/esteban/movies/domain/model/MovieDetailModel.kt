@@ -26,30 +26,30 @@ data class MovieDetailModel(
     val title: String,
     val video: Boolean,
     val voteAverage: Double,
-    val voteCount: Int
+    val voteCount: Int,
 )
 
 data class CollectionInfoModel(
     val id: Int,
     val name: String,
     val posterPath: String?,
-    val backdropPath: String?
+    val backdropPath: String?,
 )
 
 data class ProductionCompanyModel(
     val id: Int,
     val logoPath: String?,
     val name: String,
-    val originCountry: String
+    val originCountry: String,
 )
 
 data class ProductionCountryModel(
     val iso: String,
-    val name: String
+    val name: String,
 )
 
 data class SpokenLanguageModel(
     val englishName: String,
     val iso: String,
-    val name: String
+    val name: String,
 )

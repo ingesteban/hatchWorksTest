@@ -12,16 +12,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataSourceModule {
+    @Provides
+    @Singleton
+    fun provideGenresApi(retrofitBuilder: RetrofitBuilder): GenresApi = retrofitBuilder.create<GenresApi>()
 
     @Provides
     @Singleton
-    fun provideGenresApi(retrofitBuilder: RetrofitBuilder): GenresApi {
-        return retrofitBuilder.create<GenresApi>()
-    }
-
-    @Provides
-    @Singleton
-    fun provideMoviesApi(retrofitBuilder: RetrofitBuilder): MoviesApi {
-        return retrofitBuilder.create<MoviesApi>()
-    }
+    fun provideMoviesApi(retrofitBuilder: RetrofitBuilder): MoviesApi = retrofitBuilder.create<MoviesApi>()
 }

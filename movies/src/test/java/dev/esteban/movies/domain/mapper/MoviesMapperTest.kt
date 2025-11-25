@@ -11,7 +11,6 @@ import org.junit.Before
 import org.junit.Test
 
 class MoviesMapperTest {
-
     private lateinit var mapper: MoviesMapper
 
     @Before
@@ -21,45 +20,47 @@ class MoviesMapperTest {
 
     @Test
     fun `convert valid movies correctly`() {
-        val response = NetworkMoviesResponse(
-            page = 1,
-            results = listOf(
-                NetworkMovieResponse(
-                    id = 1,
-                    title = "Movie 1",
-                    originalTitle = "Original 1",
-                    overview = "Overview 1",
-                    video = false,
-                    adult = false,
-                    posterPath = "/poster1.jpg",
-                    backdropPath = "/backdrop1.jpg",
-                    genreIds = listOf(10, 11),
-                    originalLanguage = "en",
-                    popularity = 8.5,
-                    releaseDate = "2024-01-01",
-                    voteAverage = 7.8,
-                    voteCount = 100
-                ),
-                NetworkMovieResponse(
-                    id = 2,
-                    title = "Movie 2",
-                    originalTitle = "Original 2",
-                    overview = "Overview 2",
-                    video = true,
-                    adult = false,
-                    posterPath = "/poster2.jpg",
-                    backdropPath = "/backdrop2.jpg",
-                    genreIds = listOf(20, 21),
-                    originalLanguage = "es",
-                    popularity = 5.5,
-                    releaseDate = "2024-02-02",
-                    voteAverage = 8.0,
-                    voteCount = 200
-                )
-            ),
-            totalPages = 1,
-            totalResults = 2
-        )
+        val response =
+            NetworkMoviesResponse(
+                page = 1,
+                results =
+                    listOf(
+                        NetworkMovieResponse(
+                            id = 1,
+                            title = "Movie 1",
+                            originalTitle = "Original 1",
+                            overview = "Overview 1",
+                            video = false,
+                            adult = false,
+                            posterPath = "/poster1.jpg",
+                            backdropPath = "/backdrop1.jpg",
+                            genreIds = listOf(10, 11),
+                            originalLanguage = "en",
+                            popularity = 8.5,
+                            releaseDate = "2024-01-01",
+                            voteAverage = 7.8,
+                            voteCount = 100,
+                        ),
+                        NetworkMovieResponse(
+                            id = 2,
+                            title = "Movie 2",
+                            originalTitle = "Original 2",
+                            overview = "Overview 2",
+                            video = true,
+                            adult = false,
+                            posterPath = "/poster2.jpg",
+                            backdropPath = "/backdrop2.jpg",
+                            genreIds = listOf(20, 21),
+                            originalLanguage = "es",
+                            popularity = 5.5,
+                            releaseDate = "2024-02-02",
+                            voteAverage = 8.0,
+                            voteCount = 200,
+                        ),
+                    ),
+                totalPages = 1,
+                totalResults = 2,
+            )
 
         val result = mapper.apply(response)
 
@@ -86,12 +87,13 @@ class MoviesMapperTest {
 
     @Test
     fun `convert empty movies list correctly`() {
-        val response = NetworkMoviesResponse(
-            page = 1,
-            results = emptyList(),
-            totalPages = 1,
-            totalResults = 0
-        )
+        val response =
+            NetworkMoviesResponse(
+                page = 1,
+                results = emptyList(),
+                totalPages = 1,
+                totalResults = 0,
+            )
 
         val result = mapper.apply(response)
         assertTrue(result is ResponseState.Success)
@@ -101,29 +103,31 @@ class MoviesMapperTest {
 
     @Test
     fun `convert minimal movie data`() {
-        val response = NetworkMoviesResponse(
-            page = 1,
-            results = listOf(
-                NetworkMovieResponse(
-                    id = 0,
-                    title = "",
-                    originalTitle = "",
-                    overview = "",
-                    video = false,
-                    adult = false,
-                    posterPath = "",
-                    backdropPath = "",
-                    genreIds = emptyList(),
-                    originalLanguage = "",
-                    popularity = 0.0,
-                    releaseDate = "",
-                    voteAverage = 0.0,
-                    voteCount = 0
-                )
-            ),
-            totalPages = 1,
-            totalResults = 1
-        )
+        val response =
+            NetworkMoviesResponse(
+                page = 1,
+                results =
+                    listOf(
+                        NetworkMovieResponse(
+                            id = 0,
+                            title = "",
+                            originalTitle = "",
+                            overview = "",
+                            video = false,
+                            adult = false,
+                            posterPath = "",
+                            backdropPath = "",
+                            genreIds = emptyList(),
+                            originalLanguage = "",
+                            popularity = 0.0,
+                            releaseDate = "",
+                            voteAverage = 0.0,
+                            voteCount = 0,
+                        ),
+                    ),
+                totalPages = 1,
+                totalResults = 1,
+            )
 
         val result = mapper.apply(response)
         val movie = (result as ResponseState.Success).response.first()
@@ -137,31 +141,33 @@ class MoviesMapperTest {
 
     @Test
     fun `convert multiple movies consistently`() {
-        val list = (1..5).map {
-            NetworkMovieResponse(
-                id = it,
-                title = "Movie $it",
-                originalTitle = "Original $it",
-                overview = "Overview $it",
-                video = false,
-                adult = false,
-                posterPath = "/poster$it.jpg",
-                backdropPath = "/backdrop$it.jpg",
-                genreIds = listOf(it),
-                originalLanguage = "en",
-                popularity = it.toDouble(),
-                releaseDate = "2024-0$it-01",
-                voteAverage = it.toDouble(),
-                voteCount = it * 10
-            )
-        }
+        val list =
+            (1..5).map {
+                NetworkMovieResponse(
+                    id = it,
+                    title = "Movie $it",
+                    originalTitle = "Original $it",
+                    overview = "Overview $it",
+                    video = false,
+                    adult = false,
+                    posterPath = "/poster$it.jpg",
+                    backdropPath = "/backdrop$it.jpg",
+                    genreIds = listOf(it),
+                    originalLanguage = "en",
+                    popularity = it.toDouble(),
+                    releaseDate = "2024-0$it-01",
+                    voteAverage = it.toDouble(),
+                    voteCount = it * 10,
+                )
+            }
 
-        val response = NetworkMoviesResponse(
-            page = 1,
-            results = list,
-            totalPages = 1,
-            totalResults = 5
-        )
+        val response =
+            NetworkMoviesResponse(
+                page = 1,
+                results = list,
+                totalPages = 1,
+                totalResults = 5,
+            )
 
         val result = mapper.apply(response)
         val movies = (result as ResponseState.Success).response
@@ -174,29 +180,31 @@ class MoviesMapperTest {
 
     @Test
     fun `verify mapped values integrity`() {
-        val response = NetworkMoviesResponse(
-            page = 1,
-            results = listOf(
-                NetworkMovieResponse(
-                    id = 100,
-                    title = "Epic Movie",
-                    originalTitle = "Epic Original",
-                    overview = "Some overview text",
-                    video = false,
-                    adult = false,
-                    posterPath = "/epic.jpg",
-                    backdropPath = "/epic_bg.jpg",
-                    genreIds = listOf(99),
-                    originalLanguage = "en",
-                    popularity = 999.0,
-                    releaseDate = "2024-10-10",
-                    voteAverage = 10.0,
-                    voteCount = 9000
-                )
-            ),
-            totalPages = 1,
-            totalResults = 1
-        )
+        val response =
+            NetworkMoviesResponse(
+                page = 1,
+                results =
+                    listOf(
+                        NetworkMovieResponse(
+                            id = 100,
+                            title = "Epic Movie",
+                            originalTitle = "Epic Original",
+                            overview = "Some overview text",
+                            video = false,
+                            adult = false,
+                            posterPath = "/epic.jpg",
+                            backdropPath = "/epic_bg.jpg",
+                            genreIds = listOf(99),
+                            originalLanguage = "en",
+                            popularity = 999.0,
+                            releaseDate = "2024-10-10",
+                            voteAverage = 10.0,
+                            voteCount = 9000,
+                        ),
+                    ),
+                totalPages = 1,
+                totalResults = 1,
+            )
 
         val result = mapper.apply(response)
         val movie = (result as ResponseState.Success).response.first()

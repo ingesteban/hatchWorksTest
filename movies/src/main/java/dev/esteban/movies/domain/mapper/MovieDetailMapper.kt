@@ -20,80 +20,74 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MovieDetailMapper @Inject constructor() :
-    Mapper<NetworkMovieDetailResponse, ResponseState<MovieDetailModel>> {
-    override fun apply(input: NetworkMovieDetailResponse): ResponseState<MovieDetailModel> {
-        return ResponseState.Success(mapDetailToDomain(input))
-    }
+class MovieDetailMapper
+    @Inject
+    constructor() : Mapper<NetworkMovieDetailResponse, ResponseState<MovieDetailModel>> {
+        override fun apply(input: NetworkMovieDetailResponse): ResponseState<MovieDetailModel> =
+            ResponseState.Success(mapDetailToDomain(input))
 
-    fun mapDetailToDomain(input: NetworkMovieDetailResponse): MovieDetailModel {
-        return MovieDetailModel(
-            adult = input.adult,
-            backdropPath = IMAGE_URL_BACKDROP + input.backdropPath,
-            belongsToCollection = input.belongsToCollection?.let { mapCollectionInfo(it) },
-            budget = input.budget,
-            genres = input.genres.map { mapGenre(it) },
-            homepage = input.homepage,
-            id = input.id,
-            imdbId = input.imdbId,
-            originCountry = input.originCountry,
-            originalLanguage = input.originalLanguage,
-            originalTitle = input.originalTitle,
-            overview = input.overview,
-            popularity = input.popularity,
-            posterPath = IMAGE_URL_POSTER + input.posterPath,
-            productionCompanies = input.productionCompanies.map { mapProductionCompany(it) },
-            productionCountries = input.productionCountries.map { mapProductionCountry(it) },
-            releaseDate = input.releaseDate,
-            revenue = input.revenue,
-            runtime = input.runtime,
-            spokenLanguages = input.spokenLanguages.map { mapSpokenLanguage(it) },
-            status = input.status,
-            tagline = input.tagline,
-            title = input.title,
-            video = input.video,
-            voteAverage = input.voteAverage,
-            voteCount = input.voteCount
-        )
-    }
+        fun mapDetailToDomain(input: NetworkMovieDetailResponse): MovieDetailModel =
+            MovieDetailModel(
+                adult = input.adult,
+                backdropPath = IMAGE_URL_BACKDROP + input.backdropPath,
+                belongsToCollection = input.belongsToCollection?.let { mapCollectionInfo(it) },
+                budget = input.budget,
+                genres = input.genres.map { mapGenre(it) },
+                homepage = input.homepage,
+                id = input.id,
+                imdbId = input.imdbId,
+                originCountry = input.originCountry,
+                originalLanguage = input.originalLanguage,
+                originalTitle = input.originalTitle,
+                overview = input.overview,
+                popularity = input.popularity,
+                posterPath = IMAGE_URL_POSTER + input.posterPath,
+                productionCompanies = input.productionCompanies.map { mapProductionCompany(it) },
+                productionCountries = input.productionCountries.map { mapProductionCountry(it) },
+                releaseDate = input.releaseDate,
+                revenue = input.revenue,
+                runtime = input.runtime,
+                spokenLanguages = input.spokenLanguages.map { mapSpokenLanguage(it) },
+                status = input.status,
+                tagline = input.tagline,
+                title = input.title,
+                video = input.video,
+                voteAverage = input.voteAverage,
+                voteCount = input.voteCount,
+            )
 
-    private fun mapCollectionInfo(input: NetworkCollectionInfoResponse): CollectionInfoModel {
-        return CollectionInfoModel(
-            id = input.id,
-            name = input.name,
-            posterPath = IMAGE_URL_POSTER + input.posterPath,
-            backdropPath = IMAGE_URL_BACKDROP + input.backdropPath
-        )
-    }
+        private fun mapCollectionInfo(input: NetworkCollectionInfoResponse): CollectionInfoModel =
+            CollectionInfoModel(
+                id = input.id,
+                name = input.name,
+                posterPath = IMAGE_URL_POSTER + input.posterPath,
+                backdropPath = IMAGE_URL_BACKDROP + input.backdropPath,
+            )
 
-    private fun mapProductionCompany(input: NetworkProductionCompanyResponse): ProductionCompanyModel {
-        return ProductionCompanyModel(
-            id = input.id,
-            logoPath = IMAGE_URL_POSTER + input.logoPath,
-            name = input.name,
-            originCountry = input.originCountry
-        )
-    }
+        private fun mapProductionCompany(input: NetworkProductionCompanyResponse): ProductionCompanyModel =
+            ProductionCompanyModel(
+                id = input.id,
+                logoPath = IMAGE_URL_POSTER + input.logoPath,
+                name = input.name,
+                originCountry = input.originCountry,
+            )
 
-    private fun mapGenre(input: NetworkGenreResponse): GenreModel {
-        return GenreModel(
-            id = input.id,
-            name = input.name
-        )
-    }
+        private fun mapGenre(input: NetworkGenreResponse): GenreModel =
+            GenreModel(
+                id = input.id,
+                name = input.name,
+            )
 
-    private fun mapProductionCountry(input: NetworkProductionCountryResponse): ProductionCountryModel {
-        return ProductionCountryModel(
-            iso = input.iso,
-            name = input.name
-        )
-    }
+        private fun mapProductionCountry(input: NetworkProductionCountryResponse): ProductionCountryModel =
+            ProductionCountryModel(
+                iso = input.iso,
+                name = input.name,
+            )
 
-    private fun mapSpokenLanguage(input: NetworkSpokenLanguageResponse): SpokenLanguageModel {
-        return SpokenLanguageModel(
-            englishName = input.englishName,
-            iso = input.iso,
-            name = input.name
-        )
+        private fun mapSpokenLanguage(input: NetworkSpokenLanguageResponse): SpokenLanguageModel =
+            SpokenLanguageModel(
+                englishName = input.englishName,
+                iso = input.iso,
+                name = input.name,
+            )
     }
-}

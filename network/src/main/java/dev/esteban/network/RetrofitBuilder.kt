@@ -13,37 +13,44 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RetrofitBuilder @Inject constructor(private val networkJson: Json) {
+class RetrofitBuilder
+    @Inject
+    constructor(
+        private val networkJson: Json,
+    ) {
+        companion object {
+            private const val API_KEY = "api_key"
+        }
 
-    companion object {
-        private const val API_KEY = "api_key"
-    }
-
-    @OptIn(ExperimentalSerializationApi::class)
-    fun getClient(): Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .client(
-            OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().apply {
-                    setLevel(HttpLoggingInterceptor.Level.BODY)
-                })
-                .addInterceptor { chain ->
-                    val original = chain.request()
-                    val originalHttpUrl = original.url
-                    val url = originalHttpUrl.newBuilder()
-                        .addQueryParameter(API_KEY, TMBD_KEY)
-                        .build()
-                    val requestBuilder = original.newBuilder()
-                        .url(url)
-                    val request = requestBuilder.build()
-                    chain.proceed(request)
-                }
+        @OptIn(ExperimentalSerializationApi::class)
+        fun getClient(): Retrofit =
+            Retrofit
+                .Builder()
+                .baseUrl(BASE_URL)
+                .client(
+                    OkHttpClient
+                        .Builder()
+                        .addInterceptor(
+                            HttpLoggingInterceptor().apply {
+                                setLevel(HttpLoggingInterceptor.Level.BODY)
+                            },
+                        ).addInterceptor { chain ->
+                            val original = chain.request()
+                            val originalHttpUrl = original.url
+                            val url =
+                                originalHttpUrl
+                                    .newBuilder()
+                                    .addQueryParameter(API_KEY, TMBD_KEY)
+                                    .build()
+                            val requestBuilder =
+                                original
+                                    .newBuilder()
+                                    .url(url)
+                            val request = requestBuilder.build()
+                            chain.proceed(request)
+                        }.build(),
+                ).addConverterFactory(networkJson.asConverterFactory("application/json".toMediaType()))
                 .build()
-        )
-        .addConverterFactory(networkJson.asConverterFactory("application/json".toMediaType()))
-        .build()
 
-    inline fun <reified T> create(): T {
-        return getClient().create(T::class.java)
+        inline fun <reified T> create(): T = getClient().create(T::class.java)
     }
-}

@@ -10,13 +10,13 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 interface NetworkModule {
-
     companion object {
         @Provides
         @Singleton
-        fun providesNetworkJson(): Json = Json {
-            ignoreUnknownKeys = true
-            isLenient = true
-        }
+        fun providesNetworkJson(): Json =
+            Json {
+                ignoreUnknownKeys = true
+                isLenient = true
+            }
     }
 }

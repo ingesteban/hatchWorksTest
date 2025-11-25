@@ -25,33 +25,34 @@ fun HatchTertiaryButton(
     modifier: Modifier = Modifier,
     imageVector: ImageVector? = null,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Button(
-        colors = ButtonDefaults.buttonColors(
-            containerColor = HatchWorksTestTheme.colors.tertiary,
-            contentColor = HatchWorksTestTheme.colors.onTertiary
-        ),
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = HatchWorksTestTheme.colors.tertiary,
+                contentColor = HatchWorksTestTheme.colors.onTertiary,
+            ),
         modifier = modifier,
         shape = LocalHatchWorksTestShape.current.extraExtraLarge,
-        onClick = onClick
+        onClick = onClick,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = horizontalArrangement,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             imageVector?.let {
                 Icon(
                     imageVector = imageVector,
                     tint = HatchWorksTestTheme.colors.onTertiary,
                     contentDescription = text,
-                    modifier = Modifier.padding(end = md)
+                    modifier = Modifier.padding(end = md),
                 )
             }
             Text(
                 text = text,
-                style = textStyle
+                style = textStyle,
             )
         }
     }

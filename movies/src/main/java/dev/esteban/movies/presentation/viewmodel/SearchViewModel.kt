@@ -14,43 +14,50 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(
-    private val moviesRepository: MoviesRepository,
-) : ViewModel() {
-    private var searchJob: Job? = null
+class SearchViewModel
+    @Inject
+    constructor(
+        private val moviesRepository: MoviesRepository,
+    ) : ViewModel() {
+        private var searchJob: Job? = null
 
-    private val searchedMoviesMutableStateFlow: MutableStateFlow<ResponseState<List<MovieModel>>> =
-        MutableStateFlow(ResponseState.Idle)
-    val searchedMoviesStateFlow: StateFlow<ResponseState<List<MovieModel>>> =
-        searchedMoviesMutableStateFlow.asStateFlow()
+        private val searchedMoviesMutableStateFlow: MutableStateFlow<ResponseState<List<MovieModel>>> =
+            MutableStateFlow(ResponseState.Idle)
+        val searchedMoviesStateFlow: StateFlow<ResponseState<List<MovieModel>>> =
+            searchedMoviesMutableStateFlow.asStateFlow()
 
-    fun searchMovies(query: String) {
-        searchJob?.cancel()
-        if (query.isBlank()) {
-            searchedMoviesMutableStateFlow.value = ResponseState.Idle
-            return
-        }
-        searchJob = viewModelScope.launch {
-            moviesRepository.search(query)
-                .collect { response ->
-                    when (response) {
-                        is ResponseState.Idle -> {
-                            // NO_OP
+        fun searchMovies(query: String) {
+            searchJob?.cancel()
+            if (query.isBlank()) {
+                searchedMoviesMutableStateFlow.value = ResponseState.Idle
+                return
+            }
+            searchJob =
+                viewModelScope.launch {
+                    moviesRepository
+                        .search(query)
+                        .collect { response ->
+                            when (response) {
+                                is ResponseState.Idle -> {
+                                    // NO_OP
+                                }
+
+                                is ResponseState.Loading ->
+                                    searchedMoviesMutableStateFlow.emit(
+                                        ResponseState.Loading,
+                                    )
+
+                                is ResponseState.Success ->
+                                    searchedMoviesMutableStateFlow.emit(
+                                        response,
+                                    )
+
+                                is ResponseState.Error ->
+                                    searchedMoviesMutableStateFlow.emit(
+                                        response,
+                                    )
+                            }
                         }
-
-                        is ResponseState.Loading -> searchedMoviesMutableStateFlow.emit(
-                            ResponseState.Loading
-                        )
-
-                        is ResponseState.Success -> searchedMoviesMutableStateFlow.emit(
-                            response
-                        )
-
-                        is ResponseState.Error -> searchedMoviesMutableStateFlow.emit(
-                            response
-                        )
-                    }
                 }
         }
     }
-}

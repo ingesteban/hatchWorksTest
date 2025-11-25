@@ -13,12 +13,8 @@ import dev.esteban.movies.domain.repository.MoviesRepository
 @InstallIn(SingletonComponent::class)
 interface RepositoryModule {
     @Binds
-    fun bindsMoviesRepository(
-        moviesRepository: MoviesRepositoryImpl
-    ): MoviesRepository
+    fun bindsMoviesRepository(moviesRepository: MoviesRepositoryImpl): MoviesRepository
 
     @Binds
-    fun bindsGenresRepository(
-        genresRepository: GenresRepositoryImpl
-    ): GenresRepository
+    fun bindsGenresRepository(genresRepository: GenresRepositoryImpl): GenresRepository
 }

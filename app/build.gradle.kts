@@ -5,6 +5,15 @@ plugins {
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ktlint)
+}
+
+ktlint {
+    verbose.set(true)
+
+    filter {
+        exclude("**/generated/**")
+    }
 }
 
 android {
@@ -28,7 +37,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -66,10 +75,10 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.coil.compose)
 
-    //navigation
+    // navigation
     implementation(libs.androidx.navigation.compose)
 
-    //serialization
+    // serialization
     implementation(libs.kotlinx.serialization)
 
     // Dagger hilt

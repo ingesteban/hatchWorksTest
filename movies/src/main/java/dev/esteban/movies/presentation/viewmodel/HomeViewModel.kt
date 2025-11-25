@@ -17,51 +17,52 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val moviesRepository: MoviesRepository,
-    private val genresRepository: GenresRepository,
-) : ViewModel() {
+class HomeViewModel
+    @Inject
+    constructor(
+        private val moviesRepository: MoviesRepository,
+        private val genresRepository: GenresRepository,
+    ) : ViewModel() {
+        private val homeMoviesMutableStateFlow: MutableStateFlow<HomeUIState> =
+            MutableStateFlow(HomeUIState())
+        val homeMoviesStateFlow: StateFlow<HomeUIState> = homeMoviesMutableStateFlow.asStateFlow()
 
-    private val homeMoviesMutableStateFlow: MutableStateFlow<HomeUIState> =
-        MutableStateFlow(HomeUIState())
-    val homeMoviesStateFlow: StateFlow<HomeUIState> = homeMoviesMutableStateFlow.asStateFlow()
+        fun loadMovies() {
+            viewModelScope.launch {
+                val trendingDeferred = async { moviesRepository.trending().first { it !is ResponseState.Loading } }
+                val popularDeferred = async { moviesRepository.popular().first { it !is ResponseState.Loading } }
+                val upcomingDeferred = async { moviesRepository.upcoming().first { it !is ResponseState.Loading } }
+                val nowPlayingDeferred = async { moviesRepository.nowPlaying().first { it !is ResponseState.Loading } }
+                val genreListDeferred = async { genresRepository.genreList().first { it !is ResponseState.Loading } }
 
-    fun loadMovies() {
-        viewModelScope.launch {
-            val trendingDeferred = async { moviesRepository.trending().first { it !is ResponseState.Loading } }
-            val popularDeferred = async { moviesRepository.popular().first { it !is ResponseState.Loading } }
-            val upcomingDeferred = async { moviesRepository.upcoming().first { it !is ResponseState.Loading } }
-            val nowPlayingDeferred = async { moviesRepository.nowPlaying().first { it !is ResponseState.Loading } }
-            val genreListDeferred = async { genresRepository.genreList().first { it !is ResponseState.Loading } }
+                handleDeferredResult(trendingDeferred) { movies, currentState ->
+                    currentState.copy(trending = movies)
+                }
+                handleDeferredResult(popularDeferred) { movies, currentState ->
+                    currentState.copy(popular = movies)
+                }
+                handleDeferredResult(upcomingDeferred) { movies, currentState ->
+                    currentState.copy(upcoming = movies)
+                }
+                handleDeferredResult(nowPlayingDeferred) { movies, currentState ->
+                    currentState.copy(nowPlaying = movies)
+                }
+                handleDeferredResult(genreListDeferred) { genres, currentState ->
+                    currentState.copy(genres = genres)
+                }
+            }
+        }
 
-            handleDeferredResult(trendingDeferred) { movies, currentState ->
-                currentState.copy(trending = movies)
-            }
-            handleDeferredResult(popularDeferred) { movies, currentState ->
-                currentState.copy(popular = movies)
-            }
-            handleDeferredResult(upcomingDeferred) { movies, currentState ->
-                currentState.copy(upcoming = movies)
-            }
-            handleDeferredResult(nowPlayingDeferred) { movies, currentState ->
-                currentState.copy(nowPlaying = movies)
-            }
-            handleDeferredResult(genreListDeferred) { genres, currentState ->
-                currentState.copy(genres = genres)
+        private suspend fun <T> handleDeferredResult(
+            deferred: Deferred<ResponseState<T>>,
+            stateUpdater: (ResponseState<T>, HomeUIState) -> HomeUIState,
+        ) {
+            try {
+                homeMoviesMutableStateFlow.value =
+                    stateUpdater(deferred.await(), homeMoviesStateFlow.value)
+            } catch (_: Exception) {
+                homeMoviesMutableStateFlow.value =
+                    stateUpdater(ResponseState.Error(), homeMoviesStateFlow.value)
             }
         }
     }
-
-    private suspend fun <T> handleDeferredResult(
-        deferred: Deferred<ResponseState<T>>,
-        stateUpdater: (ResponseState<T>, HomeUIState) -> HomeUIState
-    ) {
-        try {
-            homeMoviesMutableStateFlow.value =
-                stateUpdater(deferred.await(), homeMoviesStateFlow.value)
-        } catch (_: Exception) {
-            homeMoviesMutableStateFlow.value =
-                stateUpdater(ResponseState.Error(), homeMoviesStateFlow.value)
-        }
-    }
-}

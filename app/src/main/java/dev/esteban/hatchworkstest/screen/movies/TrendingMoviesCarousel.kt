@@ -71,56 +71,61 @@ fun TrendingMoviesCarousel(
     when {
         stateMovies is ResponseState.Success -> {
             val popularMovies = stateMovies.response
-            val pagerState = rememberPagerState(
-                initialPage = INITIAL_0,
-                pageCount = { popularMovies.size }
-            )
+            val pagerState =
+                rememberPagerState(
+                    initialPage = INITIAL_0,
+                    pageCount = { popularMovies.size },
+                )
 
             val scrollOffset =
                 remember { derivedStateOf { pagerState.currentPage + pagerState.currentPageOffsetFraction } }.value
 
-            val motionScene = remember {
-                MotionScene {
-                    val cardRef = createRefFor("card")
-                    val startConstraint = constraintSet("start") {
-                        constrain(cardRef) {
-                            centerTo(parent)
-                            width = Dimension.value(cardWidth)
-                            height = Dimension.value(cardHeight)
-                            scaleX = F1
-                            scaleY = F1
-                        }
-                    }
-                    val endConstraint = constraintSet("end") {
-                        constrain(cardRef) {
-                            start.linkTo(parent.start, -(cardWidth * F008))
-                            top.linkTo(parent.top)
-                            bottom.linkTo(parent.bottom)
-                            width = Dimension.value(cardWidth)
-                            height = Dimension.value(cardHeight)
-                            scaleX = F085
-                            scaleY = F085
-                        }
-                    }
+            val motionScene =
+                remember {
+                    MotionScene {
+                        val cardRef = createRefFor("card")
+                        val startConstraint =
+                            constraintSet("start") {
+                                constrain(cardRef) {
+                                    centerTo(parent)
+                                    width = Dimension.value(cardWidth)
+                                    height = Dimension.value(cardHeight)
+                                    scaleX = F1
+                                    scaleY = F1
+                                }
+                            }
+                        val endConstraint =
+                            constraintSet("end") {
+                                constrain(cardRef) {
+                                    start.linkTo(parent.start, -(cardWidth * F008))
+                                    top.linkTo(parent.top)
+                                    bottom.linkTo(parent.bottom)
+                                    width = Dimension.value(cardWidth)
+                                    height = Dimension.value(cardHeight)
+                                    scaleX = F085
+                                    scaleY = F085
+                                }
+                            }
 
-                    transition(startConstraint, endConstraint, "default") {
-                        keyAttributes(cardRef) {
-                            frame(FRAME_50) {
-                                scaleX = F09
-                                scaleY = F09
+                        transition(startConstraint, endConstraint, "default") {
+                            keyAttributes(cardRef) {
+                                frame(FRAME_50) {
+                                    scaleX = F09
+                                    scaleY = F09
+                                }
                             }
                         }
                     }
                 }
-            }
 
             HorizontalPager(
                 state = pagerState,
                 contentPadding = PaddingValues(horizontal = xxxl),
                 pageSpacing = lg,
-                modifier = Modifier
-                    .height(cardHeight + xxl)
-                    .fillMaxWidth()
+                modifier =
+                    Modifier
+                        .height(cardHeight + xxl)
+                        .fillMaxWidth(),
             ) { page ->
                 val distance = (scrollOffset - page).absoluteValue
                 val progress = distance.coerceIn(F0, F1)
@@ -128,48 +133,50 @@ fun TrendingMoviesCarousel(
                 MotionLayout(
                     motionScene = motionScene,
                     progress = progress,
-                    modifier = Modifier
-                        .width(cardWidth)
-                        .height(cardHeight)
+                    modifier =
+                        Modifier
+                            .width(cardWidth)
+                            .height(cardHeight),
                 ) {
-                    val scale = lerp(
-                        start = F1,
-                        stop = F085,
-                        fraction = progress
-                    )
+                    val scale =
+                        lerp(
+                            start = F1,
+                            stop = F085,
+                            fraction = progress,
+                        )
                     Card(
                         shape = LocalHatchWorksTestShape.current.extraLarge,
                         colors = CardDefaults.cardColors(containerColor = Color(0xFF333333)),
                         elevation = CardDefaults.cardElevation(defaultElevation = sm),
-                        modifier = Modifier
-                            .clickable {
-                                navigateToMovieDetail(movie.id.toString(), movie.title)
-                            }
-                            .layoutId("card")
-                            .clip(LocalHatchWorksTestShape.current.medium)
-                            .fillMaxSize()
-                            .graphicsLayer {
-                                scaleX = scale
-                                scaleY = scale
-                            }
+                        modifier =
+                            Modifier
+                                .clickable {
+                                    navigateToMovieDetail(movie.id.toString(), movie.title)
+                                }.layoutId("card")
+                                .clip(LocalHatchWorksTestShape.current.medium)
+                                .fillMaxSize()
+                                .graphicsLayer {
+                                    scaleX = scale
+                                    scaleY = scale
+                                },
                     ) {
                         Box(contentAlignment = Alignment.BottomCenter) {
                             HatchAsyncImage(
                                 path = movie.backdropPath,
                                 contentDescription = movie.title,
-                                modifier = Modifier.fillMaxSize()
+                                modifier = Modifier.fillMaxSize(),
                             )
                             Text(
                                 text = movie.title,
                                 style = LocalHatchWorksTestTypography.current.lgMedium,
                                 color = LocalHatchWorksTestColors.current.onTertiary,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(
-                                        LocalHatchWorksTestColors.current.tertiary.copy(alpha = F08)
-                                    )
-                                    .padding(vertical = xs),
-                                textAlign = TextAlign.Center
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            LocalHatchWorksTestColors.current.tertiary.copy(alpha = F08),
+                                        ).padding(vertical = xs),
+                                textAlign = TextAlign.Center,
                             )
                         }
                     }
@@ -177,11 +184,12 @@ fun TrendingMoviesCarousel(
             }
         }
 
-        stateMovies is ResponseState.Loading -> TrendingMoviesShimmer(
-            screenWidth = screenWidth,
-            cardWidth = cardWidth,
-            cardHeight = cardHeight,
-        )
+        stateMovies is ResponseState.Loading ->
+            TrendingMoviesShimmer(
+                screenWidth = screenWidth,
+                cardWidth = cardWidth,
+                cardHeight = cardHeight,
+            )
     }
 }
 
@@ -189,31 +197,34 @@ fun TrendingMoviesCarousel(
 private fun TrendingMoviesShimmer(
     screenWidth: Dp,
     cardWidth: Dp,
-    cardHeight: Dp
+    cardHeight: Dp,
 ) {
     Box(Modifier.fillMaxWidth()) {
         Shimmer(
-            modifier = Modifier
-                .height(screenWidth * F04)
-                .width(screenWidth * F0075)
-                .clip(LocalHatchWorksTestShape.current.extraLargeStart)
-                .align(Alignment.CenterEnd)
+            modifier =
+                Modifier
+                    .height(screenWidth * F04)
+                    .width(screenWidth * F0075)
+                    .clip(LocalHatchWorksTestShape.current.extraLargeStart)
+                    .align(Alignment.CenterEnd),
         )
 
         Shimmer(
-            modifier = Modifier
-                .height(cardHeight)
-                .width(cardWidth)
-                .clip(LocalHatchWorksTestShape.current.large)
-                .align(Alignment.Center)
+            modifier =
+                Modifier
+                    .height(cardHeight)
+                    .width(cardWidth)
+                    .clip(LocalHatchWorksTestShape.current.large)
+                    .align(Alignment.Center),
         )
 
         Shimmer(
-            modifier = Modifier
-                .height(screenWidth * F04)
-                .width(screenWidth * F0075)
-                .clip(LocalHatchWorksTestShape.current.extraLargeEnd)
-                .align(Alignment.CenterStart)
+            modifier =
+                Modifier
+                    .height(screenWidth * F04)
+                    .width(screenWidth * F0075)
+                    .clip(LocalHatchWorksTestShape.current.extraLargeEnd)
+                    .align(Alignment.CenterStart),
         )
     }
 }

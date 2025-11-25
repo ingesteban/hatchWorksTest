@@ -26,17 +26,18 @@ fun GenericMovieItem(
     navigateToMovieDetail: (String, String) -> Unit,
 ) {
     Card(
-        modifier = Modifier.clickable {
-            navigateToMovieDetail(movie.id.toString(), movie.title)
-        }
+        modifier =
+            Modifier.clickable {
+                navigateToMovieDetail(movie.id.toString(), movie.title)
+            },
     ) {
         Box(
             contentAlignment = Alignment.BottomCenter,
-            modifier = Modifier.background(LocalHatchWorksTestColors.current.background)
+            modifier = Modifier.background(LocalHatchWorksTestColors.current.background),
         ) {
             HatchAsyncImage(
                 path = movie.posterPath,
-                modifier = Modifier.height(xxxxl2)
+                modifier = Modifier.height(xxxxl2),
             )
             Text(
                 text = movie.title,
@@ -44,13 +45,13 @@ fun GenericMovieItem(
                 color = LocalHatchWorksTestColors.current.onTertiary,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        LocalHatchWorksTestColors.current.tertiary.copy(alpha = F08)
-                    )
-                    .padding(vertical = xs),
-                textAlign = TextAlign.Center
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .background(
+                            LocalHatchWorksTestColors.current.tertiary.copy(alpha = F08),
+                        ).padding(vertical = xs),
+                textAlign = TextAlign.Center,
             )
         }
     }

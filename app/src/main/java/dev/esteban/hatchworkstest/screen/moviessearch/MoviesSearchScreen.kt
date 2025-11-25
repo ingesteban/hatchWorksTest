@@ -81,15 +81,16 @@ fun MoviesSearchScreen(
         TextField(
             value = query,
             onValueChange = { query = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(lg)
-                .focusRequester(focusRequester)
-                .clip(HatchWorksTestTheme.shapes.extraExtraLarge),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(lg)
+                    .focusRequester(focusRequester)
+                    .clip(HatchWorksTestTheme.shapes.extraExtraLarge),
             placeholder = {
                 Text(
                     text = stringResource(R.string.search_for_a_movie),
-                    style = HatchWorksTestTheme.typography.lgBold
+                    style = HatchWorksTestTheme.typography.lgBold,
                 )
             },
             leadingIcon = {
@@ -97,7 +98,7 @@ fun MoviesSearchScreen(
                     imageVector = Icons.Outlined.Search,
                     tint = HatchWorksTestTheme.colors.onTertiary,
                     contentDescription = stringResource(R.string.search_for_a_movie),
-                    modifier = Modifier.padding(end = xs)
+                    modifier = Modifier.padding(end = xs),
                 )
             },
             trailingIcon = {
@@ -110,22 +111,23 @@ fun MoviesSearchScreen(
                         imageVector = Icons.Default.Close,
                         tint = HatchWorksTestTheme.colors.onTertiary,
                         contentDescription = stringResource(R.string.search_for_a_movie),
-                        modifier = Modifier.padding(end = xs)
+                        modifier = Modifier.padding(end = xs),
                     )
                 }
             },
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = { searchViewModel.searchMovies(query) }),
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = colors.secondary,
-                cursorColor = colors.primary,
-                focusedIndicatorColor = colors.onTertiary,
-                unfocusedIndicatorColor = colors.darkGray2,
-                placeholderColor = colors.onTertiary,
-                backgroundColor = colors.tertiary
-            ),
-            shape = RoundedCornerShape(md)
+            colors =
+                TextFieldDefaults.textFieldColors(
+                    textColor = colors.secondary,
+                    cursorColor = colors.primary,
+                    focusedIndicatorColor = colors.onTertiary,
+                    unfocusedIndicatorColor = colors.darkGray2,
+                    placeholderColor = colors.onTertiary,
+                    backgroundColor = colors.tertiary,
+                ),
+            shape = RoundedCornerShape(md),
         )
         MoviesList(
             stateMovies = searchedMoviesStateFlow,
@@ -133,7 +135,7 @@ fun MoviesSearchScreen(
             navigateToMovieDetail = navigateToMovieDetail,
             onClearSearch = {
                 query = ""
-            }
+            },
         )
     }
 }
@@ -143,7 +145,7 @@ private fun MoviesList(
     query: String,
     stateMovies: ResponseState<List<MovieModel>>,
     navigateToMovieDetail: (String, String) -> Unit,
-    onClearSearch: () -> Unit
+    onClearSearch: () -> Unit,
 ) {
     when (stateMovies) {
         is ResponseState.Loading -> LoadingWheel()
@@ -153,7 +155,7 @@ private fun MoviesList(
             } else {
                 GenericMoviesGrid(
                     movies = stateMovies.response,
-                    navigateToMovieDetail = navigateToMovieDetail
+                    navigateToMovieDetail = navigateToMovieDetail,
                 )
             }
         }
@@ -173,7 +175,7 @@ private fun GenericMoviesGrid(
         columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(sm),
         verticalArrangement = Arrangement.spacedBy(sm),
-        horizontalArrangement = Arrangement.spacedBy(sm)
+        horizontalArrangement = Arrangement.spacedBy(sm),
     ) {
         items(movies.size) { index ->
             GenericMovieItem(movies[index], navigateToMovieDetail)
@@ -182,35 +184,35 @@ private fun GenericMoviesGrid(
 }
 
 @Composable
-private fun NoResults(
-    onClearSearch: () -> Unit
-) {
+private fun NoResults(onClearSearch: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     ) {
         Text(
             text = stringResource(R.string.no_results_title),
             style = HatchWorksTestTheme.typography.xlgBold,
             textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = xl)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = xl),
         )
         Text(
             text = stringResource(R.string.no_results_description),
             style = HatchWorksTestTheme.typography.mdRegular,
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
 
         HatchTertiaryButton(
             text = stringResource(R.string.no_results_button),
             imageVector = Icons.Default.Refresh,
             horizontalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .width(xxxxl)
-                .padding(top = xxl)
+            modifier =
+                Modifier
+                    .width(xxxxl)
+                    .padding(top = xxl),
         ) {
             onClearSearch()
         }

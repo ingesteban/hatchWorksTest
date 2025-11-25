@@ -10,14 +10,14 @@ import dev.esteban.hatchworkstest.screen.moviespaginated.MoviePaginatedNavigatio
 import dev.esteban.hatchworkstest.screen.moviessearch.MovieSearchNavigation
 
 interface ScreenNavigation {
-
     companion object {
-        val movies = listOf(
-            MoviesNavigation,
-            MovieDetailNavigation,
-            MovieSearchNavigation,
-            MoviePaginatedNavigation,
-        )
+        val movies =
+            listOf(
+                MoviesNavigation,
+                MovieDetailNavigation,
+                MovieSearchNavigation,
+                MoviePaginatedNavigation,
+            )
     }
 
     val route: String
@@ -28,6 +28,6 @@ interface ScreenNavigation {
     fun Content(
         navController: NavController,
         navBackStackEntry: NavBackStackEntry,
-        setTitle: (String?) -> Unit
+        setTitle: (String?) -> Unit,
     )
 }

@@ -16,7 +16,7 @@ fun AppNavHost(
     NavHost(
         navController = navController,
         startDestination = MoviesNavigation.route,
-        modifier = modifier
+        modifier = modifier,
     ) {
         moviesGraph(navController, setTitle)
     }

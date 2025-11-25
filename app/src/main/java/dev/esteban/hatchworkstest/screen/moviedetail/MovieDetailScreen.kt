@@ -48,7 +48,7 @@ import dev.esteban.network.ResponseState
 @Composable
 fun MovieDetailScreen(
     viewModel: MovieViewModel = hiltViewModel(),
-    movieId: String
+    movieId: String,
 ) {
     val stateMovieDetail = viewModel.movieDetailStateFlow.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
@@ -62,7 +62,7 @@ fun MovieDetailScreen(
 @Composable
 fun MovieDetailContent(
     stateMovieDetail: ResponseState<MovieDetailModel>,
-    onRetryClick: () -> Unit
+    onRetryClick: () -> Unit,
 ) {
     when (stateMovieDetail) {
         is ResponseState.Error -> GenericErrorScreen(onRetryClick = onRetryClick)
@@ -70,55 +70,58 @@ fun MovieDetailContent(
         is ResponseState.Success -> {
             val movieDetail = stateMovieDetail.response
             Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             ) {
                 HatchAsyncImage(
                     path = movieDetail.posterPath,
                     contentScale = ContentScale.Crop,
                     contentDescription = null,
-                    modifier = Modifier
-                        .height(600.dp)
-                        .fillMaxWidth()
+                    modifier =
+                        Modifier
+                            .height(600.dp)
+                            .fillMaxWidth(),
                 )
 
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState()),
                 ) {
                     Spacer(modifier = Modifier.height(600.dp))
 
                     Column(
-                        modifier = Modifier
-                            .background(HatchWorksTestTheme.colors.background) // Usa el color de fondo del tema
-                            .padding(horizontal = lg) // Aplica tu padding horizontal
-                            .fillMaxWidth()
+                        modifier =
+                            Modifier
+                                .background(HatchWorksTestTheme.colors.background) // Usa el color de fondo del tema
+                                .padding(horizontal = lg) // Aplica tu padding horizontal
+                                .fillMaxWidth(),
                     ) {
                         CategoriesRow(genres = movieDetail.genres)
 
                         Text(
                             text = movieDetail.title,
                             style = HatchWorksTestTheme.typography.xlgBold,
-                            modifier = Modifier.padding(bottom = md)
+                            modifier = Modifier.padding(bottom = md),
                         )
 
                         movieDetail.overview?.let { overview ->
                             Text(
                                 text = stringResource(R.string.overview),
                                 style = HatchWorksTestTheme.typography.lgBold,
-                                modifier = Modifier.padding(bottom = md)
+                                modifier = Modifier.padding(bottom = md),
                             )
                             Text(
                                 text = overview,
                                 style = HatchWorksTestTheme.typography.smRegular,
-                                modifier = Modifier.padding(bottom = md)
+                                modifier = Modifier.padding(bottom = md),
                             )
                         }
 
                         Text(
                             text = stringResource(R.string.key_details),
                             style = HatchWorksTestTheme.typography.xlgBold,
-                            modifier = Modifier.padding(vertical = md)
+                            modifier = Modifier.padding(vertical = md),
                         )
 
                         movieDetail.releaseDate?.let { releaseDate ->
@@ -133,14 +136,12 @@ fun MovieDetailContent(
 
                         Spacer(modifier = Modifier.height(16.dp))
                     }
-
                 }
-
             }
         }
 
         else -> {
-            //NO_OP
+            // NO_OP
         }
     }
 }
@@ -149,14 +150,15 @@ fun MovieDetailContent(
 private fun CategoriesRow(genres: List<GenreModel>) {
     LazyRow {
         itemsIndexed(genres) { index, genreItem ->
-            val cardModifier = when {
-                index == INITIAL_0 -> Modifier.padding(end = xsm)
-                index == genres.lastIndex -> Modifier.padding(start = xsm)
-                else -> Modifier.padding(horizontal = xsm)
-            }
+            val cardModifier =
+                when {
+                    index == INITIAL_0 -> Modifier.padding(end = xsm)
+                    index == genres.lastIndex -> Modifier.padding(start = xsm)
+                    else -> Modifier.padding(horizontal = xsm)
+                }
             HatchTertiaryButton(
                 text = genreItem.name,
-                modifier = cardModifier.padding(vertical = md)
+                modifier = cardModifier.padding(vertical = md),
             ) {
                 // NO_OP
             }
@@ -171,28 +173,29 @@ private fun ProductionCompanies(productionCompanies: List<ProductionCompanyModel
             Text(
                 text = stringResource(R.string.companies),
                 style = HatchWorksTestTheme.typography.xlgBold,
-                modifier = Modifier.padding(vertical = md)
+                modifier = Modifier.padding(vertical = md),
             )
             Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
                 productionCompanies.forEach { company ->
                     Column(
-                        modifier = Modifier
-                            .padding(end = lg)
-                            .width(xxxl2)
-                            .background(HatchWorksTestTheme.colors.background)
+                        modifier =
+                            Modifier
+                                .padding(end = lg)
+                                .width(xxxl2)
+                                .background(HatchWorksTestTheme.colors.background),
                     ) {
-
                         HatchAsyncImage(
                             path = company.logoPath,
                             contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .size(xxxl2)
-                                .clip(shape = HatchWorksTestTheme.shapes.extraExtraLarge),
+                            modifier =
+                                Modifier
+                                    .size(xxxl2)
+                                    .clip(shape = HatchWorksTestTheme.shapes.extraExtraLarge),
                         )
                         Text(
                             text = company.name,
                             modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
                         )
                     }
                 }

@@ -15,7 +15,7 @@ object MovieDetailNavigation : ScreenNavigation {
     override fun Content(
         navController: NavController,
         navBackStackEntry: NavBackStackEntry,
-        setTitle: (String?) -> Unit
+        setTitle: (String?) -> Unit,
     ) {
         val movieId = navBackStackEntry.arguments?.getString(MOVIE_ID) ?: ""
         val movieTitle = navBackStackEntry.arguments?.getString(MOVIE_TITLE) ?: ""
@@ -23,5 +23,8 @@ object MovieDetailNavigation : ScreenNavigation {
         MovieDetailScreen(movieId = movieId)
     }
 
-    fun movieRoute(id: String, title: String) = "$MOVIE_DETAIL/$id/$title"
+    fun movieRoute(
+        id: String,
+        title: String,
+    ) = "$MOVIE_DETAIL/$id/$title"
 }

@@ -36,7 +36,6 @@ import dev.esteban.hatchworkstest.designsystem.constants.Spacing.sm
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.xxxxl
 import dev.esteban.hatchworkstest.designsystem.constants.Spacing.xxxxxl
 import dev.esteban.hatchworkstest.designsystem.theme.HatchWorksTestTheme
-
 import dev.esteban.movies.domain.model.MovieModel
 import dev.esteban.network.ResponseState
 
@@ -52,63 +51,74 @@ fun SectionMoviesContent(
         is ResponseState.Success -> {
             LazyRow {
                 itemsIndexed(stateMovies.response) { index, movieItem ->
-                    val cardModifier = when {
-                        index == INITIAL_0 -> Modifier
-                            .width(xxxxl)
-                            .padding(end = sm)
+                    val cardModifier =
+                        when {
+                            index == INITIAL_0 ->
+                                Modifier
+                                    .width(xxxxl)
+                                    .padding(end = sm)
 
-                        index == stateMovies.response.lastIndex -> Modifier
-                            .width(xxxxl)
-                            .padding(start = sm)
+                            index == stateMovies.response.lastIndex ->
+                                Modifier
+                                    .width(xxxxl)
+                                    .padding(start = sm)
 
-                        else -> Modifier
-                            .width(xxxxl)
-                            .padding(horizontal = sm)
-                    }
-                    Card(modifier = cardModifier.clickable {
-                        navigateToMovieDetail(movieItem.id.toString(), movieItem.title)
-                    }) {
+                            else ->
+                                Modifier
+                                    .width(xxxxl)
+                                    .padding(horizontal = sm)
+                        }
+                    Card(
+                        modifier =
+                            cardModifier.clickable {
+                                navigateToMovieDetail(movieItem.id.toString(), movieItem.title)
+                            },
+                    ) {
                         Column(modifier = Modifier.background(HatchWorksTestTheme.colors.background)) {
-                            val annotatedString = buildAnnotatedString {
-                                withStyle(
-                                    style = SpanStyle(
-                                        fontStyle = HatchWorksTestTheme.typography.smMedium.fontStyle,
-                                        color = HatchWorksTestTheme.colors.primary
-                                    )
-                                ) {
-                                    append(movieItem.voteCount.toString())
+                            val annotatedString =
+                                buildAnnotatedString {
+                                    withStyle(
+                                        style =
+                                            SpanStyle(
+                                                fontStyle = HatchWorksTestTheme.typography.smMedium.fontStyle,
+                                                color = HatchWorksTestTheme.colors.primary,
+                                            ),
+                                    ) {
+                                        append(movieItem.voteCount.toString())
+                                    }
+                                    append(" (${movieItem.voteAverage})")
                                 }
-                                append(" (${movieItem.voteAverage})")
-                            }
                             HatchAsyncImage(
                                 path = movieItem.posterPath,
                                 contentDescription = null,
-                                modifier = Modifier
-                                    .clip(shape = RoundedCornerShape(sm))
-                                    .width(xxxxl)
-                                    .height(xxxxxl)
+                                modifier =
+                                    Modifier
+                                        .clip(shape = RoundedCornerShape(sm))
+                                        .width(xxxxl)
+                                        .height(xxxxxl),
                             )
                             Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(sm)
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(sm),
                             ) {
                                 Text(
                                     text = movieItem.title,
                                     style = HatchWorksTestTheme.typography.mdRegular,
                                     maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
+                                    overflow = TextOverflow.Ellipsis,
                                 )
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Icon(
                                         imageVector = Icons.Outlined.Star,
                                         contentDescription = null,
                                         tint = HatchWorksTestTheme.colors.primary,
-                                        modifier = Modifier.size(lg)
+                                        modifier = Modifier.size(lg),
                                     )
                                     Text(
                                         text = annotatedString,
-                                        style = HatchWorksTestTheme.typography.smRegular
+                                        style = HatchWorksTestTheme.typography.smRegular,
                                     )
                                 }
                             }
@@ -119,7 +129,7 @@ fun SectionMoviesContent(
         }
 
         else -> {
-            //NO_OP
+            // NO_OP
         }
     }
 }
@@ -129,11 +139,12 @@ private fun SectionMoviesShimmer() {
     LazyRow {
         items(LOADING_ITEMS) {
             Shimmer(
-                modifier = Modifier
-                    .clip(HatchWorksTestTheme.shapes.large)
-                    .height(xxxxxl)
-                    .width(xxxxl)
-                    .fillMaxWidth()
+                modifier =
+                    Modifier
+                        .clip(HatchWorksTestTheme.shapes.large)
+                        .height(xxxxxl)
+                        .width(xxxxl)
+                        .fillMaxWidth(),
             )
             Spacer(modifier = Modifier.width(sm))
         }

@@ -19,11 +19,9 @@ val LightPurple = Color(0xFFE4DFF5)
 val DarkPurple = Color(0xFF1E1A34)
 val AccentGreen = Color(0xFF6FC905)
 
-
 val LightPurple10 = Color(0xFFE4DFF5)
 val DarkPurple10 = Color(0xFF3E21C9)
 val Error = Color(0xFFE53935)
-
 
 data class HatchWorksTestColors(
     val primary: Color,
@@ -36,50 +34,54 @@ data class HatchWorksTestColors(
     val error: Color,
 )
 
-val DarkColors = HatchWorksTestColors(
-    primary = AccentYellow,
-    onPrimary = Black,
-    secondary = PureWhite,
-    tertiary = DarkPurple,
-    onTertiary = LightPurple10,
-    background = DarkBackground,
-    darkGray2 = LightGrayText,
-    error = Error,
-)
+val DarkColors =
+    HatchWorksTestColors(
+        primary = AccentYellow,
+        onPrimary = Black,
+        secondary = PureWhite,
+        tertiary = DarkPurple,
+        onTertiary = LightPurple10,
+        background = DarkBackground,
+        darkGray2 = LightGrayText,
+        error = Error,
+    )
 
-val LightColors = HatchWorksTestColors(
-    primary = AccentGreen,
-    onPrimary = Black,
-    secondary = NearBlack,
-    tertiary = LightPurple,
-    onTertiary = DarkPurple10,
-    background = PureWhite,
-    darkGray2 = MediumGrayText,
-    error = Error,
-)
+val LightColors =
+    HatchWorksTestColors(
+        primary = AccentGreen,
+        onPrimary = Black,
+        secondary = NearBlack,
+        tertiary = LightPurple,
+        onTertiary = DarkPurple10,
+        background = PureWhite,
+        darkGray2 = MediumGrayText,
+        error = Error,
+    )
 
-val lightColorScheme = lightColorScheme(
-    primary = LightColors.primary,
-    onPrimary = LightColors.onPrimary,
-    secondary = LightColors.secondary,
-    tertiary = LightColors.tertiary,
-    onTertiary = LightColors.onTertiary,
-    background = LightColors.background,
-    error = LightColors.error,
-    surface = PureWhite,
-    onSurface = NearBlack,
-)
+val lightColorScheme =
+    lightColorScheme(
+        primary = LightColors.primary,
+        onPrimary = LightColors.onPrimary,
+        secondary = LightColors.secondary,
+        tertiary = LightColors.tertiary,
+        onTertiary = LightColors.onTertiary,
+        background = LightColors.background,
+        error = LightColors.error,
+        surface = PureWhite,
+        onSurface = NearBlack,
+    )
 
-val darkColorScheme = darkColorScheme(
-    primary = DarkColors.primary,
-    onPrimary = DarkColors.onPrimary,
-    secondary = DarkColors.secondary,
-    tertiary = DarkColors.tertiary,
-    onTertiary = DarkColors.onTertiary,
-    background = DarkColors.background,
-    error = LightColors.error,
-    surface = DarkGray,
-    onSurface = PureWhite,
-)
+val darkColorScheme =
+    darkColorScheme(
+        primary = DarkColors.primary,
+        onPrimary = DarkColors.onPrimary,
+        secondary = DarkColors.secondary,
+        tertiary = DarkColors.tertiary,
+        onTertiary = DarkColors.onTertiary,
+        background = DarkColors.background,
+        error = LightColors.error,
+        surface = DarkGray,
+        onSurface = PureWhite,
+    )
 
 val LocalHatchWorksTestColors = staticCompositionLocalOf { LightColors }

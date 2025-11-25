@@ -5,8 +5,7 @@ enum class MoviesEndpointType {
     TRENDING,
     UPCOMING,
     GENRE,
-    NONE
+    NONE,
 }
 
-fun String.toMoviesEndpointType(): MoviesEndpointType =
-    MoviesEndpointType.entries.find { it.name == this } ?: MoviesEndpointType.NONE
+fun String.toMoviesEndpointType(): MoviesEndpointType = MoviesEndpointType.entries.find { it.name == this } ?: MoviesEndpointType.NONE

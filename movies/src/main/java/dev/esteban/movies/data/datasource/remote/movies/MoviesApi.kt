@@ -46,11 +46,11 @@ interface MoviesApi {
     @GET(DISCOVER)
     suspend fun discover(
         @Query(PAGE) page: Int = 1,
-        @Query(WITH_GENRES) genres: String
+        @Query(WITH_GENRES) genres: String,
     ): NetworkMoviesResponse
 
     @GET(MOVIE_DETAIL)
     suspend fun movieDetail(
-        @Path(MOVIE_ID) movieId: String
+        @Path(MOVIE_ID) movieId: String,
     ): NetworkMovieDetailResponse
 }

@@ -11,7 +11,6 @@ import dev.esteban.movies.util.MoviesEndpointType
 import dev.esteban.movies.util.toMoviesEndpointType
 
 object MoviePaginatedNavigation : ScreenNavigation {
-
     private const val MOVIES_PAGINATED = "movies_paginated"
     private const val TYPE = "type"
     private const val GENRE_ID = "genreId"
@@ -23,7 +22,7 @@ object MoviePaginatedNavigation : ScreenNavigation {
     override fun Content(
         navController: NavController,
         navBackStackEntry: NavBackStackEntry,
-        setTitle: (String?) -> Unit
+        setTitle: (String?) -> Unit,
     ) {
         val type = (navBackStackEntry.arguments?.getString(TYPE) ?: "").toMoviesEndpointType()
         val genresId = navBackStackEntry.arguments?.getString(GENRE_ID)
@@ -46,18 +45,18 @@ object MoviePaginatedNavigation : ScreenNavigation {
     fun moviesPaginatedRoute(
         type: String,
         genreId: String? = null,
-        genreName: String? = null
-    ): String {
-        return if (genreId == null) {
+        genreName: String? = null,
+    ): String =
+        if (genreId == null) {
             "$MOVIES_PAGINATED/$type"
         } else {
             "$MOVIES_PAGINATED/$type?$GENRE_ID=$genreId&$GENRE_NAME=$genreName"
         }
-    }
 
-    private fun getTitle(type: MoviesEndpointType): Int = when (type) {
-        MoviesEndpointType.NOW_PLAYING -> R.string.now_playing
-        MoviesEndpointType.TRENDING -> R.string.trending
-        else -> R.string.now_playing
-    }
+    private fun getTitle(type: MoviesEndpointType): Int =
+        when (type) {
+            MoviesEndpointType.NOW_PLAYING -> R.string.now_playing
+            MoviesEndpointType.TRENDING -> R.string.trending
+            else -> R.string.now_playing
+        }
 }

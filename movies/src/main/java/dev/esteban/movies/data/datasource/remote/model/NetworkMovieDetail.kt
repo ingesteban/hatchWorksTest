@@ -43,7 +43,7 @@ data class NetworkMovieDetailResponse(
     @SerialName("vote_average")
     val voteAverage: Double,
     @SerialName("vote_count")
-    val voteCount: Int
+    val voteCount: Int,
 )
 
 @Serializable
@@ -53,7 +53,7 @@ data class NetworkCollectionInfoResponse(
     @SerialName("poster_path")
     val posterPath: String?,
     @SerialName("backdrop_path")
-    val backdropPath: String?
+    val backdropPath: String?,
 )
 
 @Serializable
@@ -63,14 +63,14 @@ data class NetworkProductionCompanyResponse(
     val logoPath: String?,
     val name: String,
     @SerialName("origin_country")
-    val originCountry: String
+    val originCountry: String,
 )
 
 @Serializable
 data class NetworkProductionCountryResponse(
     @SerialName("iso_3166_1")
     val iso: String,
-    val name: String
+    val name: String,
 )
 
 @Serializable
@@ -79,5 +79,5 @@ data class NetworkSpokenLanguageResponse(
     val englishName: String,
     @SerialName("iso_639_1")
     val iso: String,
-    val name: String
+    val name: String,
 )

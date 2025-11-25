@@ -39,31 +39,33 @@ fun MoviesScreen(
         viewModel.loadMovies()
     }
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
     ) {
         HatchTertiaryButton(
             text = stringResource(R.string.search_for_a_movie),
             textStyle = LocalHatchWorksTestTypography.current.lgBold,
             imageVector = Icons.Outlined.Search,
-            modifier = Modifier
-                .padding(lg)
-                .height(55.dp)
-                .fillMaxWidth()
-                .height(xxl2)
+            modifier =
+                Modifier
+                    .padding(lg)
+                    .height(55.dp)
+                    .fillMaxWidth()
+                    .height(xxl2),
         ) {
             navigateToSearchMovie()
         }
 
         TrendingMoviesCarousel(
             stateMovies = homeMoviesStateFlow.popular,
-            navigateToMovieDetail = navigateToMovieDetail
+            navigateToMovieDetail = navigateToMovieDetail,
         )
 
         SectionContainer(
             titleSting = R.string.categories,
-            showSeeAllButton = false
+            showSeeAllButton = false,
         ) {
             SectionCategories(
                 genreState = homeMoviesStateFlow.genres,
@@ -71,9 +73,9 @@ fun MoviesScreen(
                     navigateToMoviesPaginated(
                         MoviesEndpointType.GENRE,
                         genreModel.id.toString(),
-                        genreModel.name
+                        genreModel.name,
                     )
-                }
+                },
             )
         }
 
@@ -81,12 +83,12 @@ fun MoviesScreen(
             titleSting = R.string.trending,
             navigateToSeeAll = {
                 navigateToMoviesPaginated(MoviesEndpointType.TRENDING, null, null)
-            }
+            },
         ) {
             SectionMoviesContent(
                 stateMovies = homeMoviesStateFlow.trending,
                 navigateToMovieDetail = navigateToMovieDetail,
-                onRetryClick = { viewModel.loadMovies() }
+                onRetryClick = { viewModel.loadMovies() },
             )
         }
 
@@ -94,12 +96,12 @@ fun MoviesScreen(
             titleSting = R.string.now_playing,
             navigateToSeeAll = {
                 navigateToMoviesPaginated(MoviesEndpointType.NOW_PLAYING, null, null)
-            }
+            },
         ) {
             SectionMoviesContent(
                 stateMovies = homeMoviesStateFlow.nowPlaying,
                 navigateToMovieDetail = navigateToMovieDetail,
-                onRetryClick = { viewModel.loadMovies() }
+                onRetryClick = { viewModel.loadMovies() },
             )
         }
 
@@ -107,12 +109,12 @@ fun MoviesScreen(
             titleSting = R.string.upcoming,
             navigateToSeeAll = {
                 navigateToMoviesPaginated(MoviesEndpointType.UPCOMING, null, null)
-            }
+            },
         ) {
             SectionMoviesContent(
                 stateMovies = homeMoviesStateFlow.upcoming,
                 navigateToMovieDetail = navigateToMovieDetail,
-                onRetryClick = { viewModel.loadMovies() }
+                onRetryClick = { viewModel.loadMovies() },
             )
         }
     }

@@ -13,17 +13,21 @@ import dev.esteban.hatchworkstest.designsystem.constants.Spacing.md
 import dev.esteban.hatchworkstest.designsystem.theme.HatchWorksTestTheme
 
 @Composable
-fun LabelValueText(label: Int, value: String) {
-    val releaseDateAnnotated = buildAnnotatedString {
-        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-            append(stringResource(label))
+fun LabelValueText(
+    label: Int,
+    value: String,
+) {
+    val releaseDateAnnotated =
+        buildAnnotatedString {
+            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                append(stringResource(label))
+            }
+            append(": $value")
         }
-        append(": $value")
-    }
 
     Text(
         text = releaseDateAnnotated,
         style = HatchWorksTestTheme.typography.smRegular,
-        modifier = Modifier.padding(bottom = md)
+        modifier = Modifier.padding(bottom = md),
     )
 }

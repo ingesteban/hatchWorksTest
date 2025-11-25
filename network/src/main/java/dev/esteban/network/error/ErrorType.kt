@@ -1,6 +1,6 @@
 package dev.esteban.network.error
 
-enum class ErrorType() {
+enum class ErrorType {
     UNKNOWN,
     SERVER,
     NOT_FOUND,

@@ -21,9 +21,10 @@ import dev.esteban.hatchworkstest.designsystem.theme.HatchWorksTestTheme
 @Composable
 fun LoadingWheel() {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(HatchWorksTestTheme.colors.background.copy(alpha = F05))
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(HatchWorksTestTheme.colors.background.copy(alpha = F05)),
     ) {
         CircularLoading()
     }
@@ -33,16 +34,17 @@ fun LoadingWheel() {
 fun CircularLoading(modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize()) {
         Card(
-            modifier = Modifier
-                .size(xxxl)
-                .align(Alignment.Center)
-                .padding(sm),
-            shape = RoundedCornerShape(sm)
+            modifier =
+                Modifier
+                    .size(xxxl)
+                    .align(Alignment.Center)
+                    .padding(sm),
+            shape = RoundedCornerShape(sm),
         ) {
             CircularProgressIndicator(
                 modifier = Modifier.padding(xl),
                 color = HatchWorksTestTheme.colors.onTertiary,
-                strokeWidth = xs
+                strokeWidth = xs,
             )
         }
     }

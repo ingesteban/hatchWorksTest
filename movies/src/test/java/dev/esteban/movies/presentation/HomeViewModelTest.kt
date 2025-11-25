@@ -26,7 +26,6 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeViewModelTest {
-
     private lateinit var viewModel: HomeViewModel
     private val moviesRepository: MoviesRepository = mockk()
     private val genresRepository: GenresRepository = mockk()
@@ -37,11 +36,12 @@ class HomeViewModelTest {
 
     private val mockMovies = ResponseState.Success(listOf(movieModel))
     private val mockGenres = ResponseState.Success(listOf(genreModel))
-    private val mockError = ResponseState.Error(
-        errorType = ErrorType.DEFAULT,
-        errorBody = ErrorBody(false, 500, "Server Error"),
-        httpErrorCode = 500
-    )
+    private val mockError =
+        ResponseState.Error(
+            errorType = ErrorType.DEFAULT,
+            errorBody = ErrorBody(false, 500, "Server Error"),
+            httpErrorCode = 500,
+        )
 
     @Before
     fun setUp() {
@@ -54,59 +54,61 @@ class HomeViewModelTest {
         Dispatchers.resetMain()
     }
 
+    @Test
+    fun `loadMovies should update all movie lists and genres with success data`() =
+        runTest {
+            coEvery { moviesRepository.trending() } returns flowOf(ResponseState.Loading, mockMovies)
+            coEvery { moviesRepository.popular() } returns flowOf(ResponseState.Loading, mockMovies)
+            coEvery { moviesRepository.upcoming() } returns flowOf(ResponseState.Loading, mockMovies)
+            coEvery { moviesRepository.nowPlaying() } returns flowOf(ResponseState.Loading, mockMovies)
+            coEvery { genresRepository.genreList() } returns flowOf(ResponseState.Loading, mockGenres)
+
+            viewModel.loadMovies()
+            advanceUntilIdle()
+
+            val state = viewModel.homeMoviesStateFlow.value
+
+            assertEquals(mockMovies, state.trending)
+            assertEquals(mockMovies, state.popular)
+            assertEquals(mockMovies, state.upcoming)
+            assertEquals(mockMovies, state.nowPlaying)
+            assertEquals(mockGenres, state.genres)
+            assertTrue(state.trending is ResponseState.Success)
+        }
 
     @Test
-    fun `loadMovies should update all movie lists and genres with success data`() = runTest {
-        coEvery { moviesRepository.trending() } returns flowOf(ResponseState.Loading, mockMovies)
-        coEvery { moviesRepository.popular() } returns flowOf(ResponseState.Loading, mockMovies)
-        coEvery { moviesRepository.upcoming() } returns flowOf(ResponseState.Loading, mockMovies)
-        coEvery { moviesRepository.nowPlaying() } returns flowOf(ResponseState.Loading, mockMovies)
-        coEvery { genresRepository.genreList() } returns flowOf(ResponseState.Loading, mockGenres)
+    fun `loadMovies should update trending list with Error when its repository fails`() =
+        runTest {
+            coEvery { moviesRepository.trending() } returns flowOf(ResponseState.Loading, mockError)
+            coEvery { moviesRepository.popular() } returns flowOf(ResponseState.Loading, mockMovies)
+            coEvery { genresRepository.genreList() } returns flowOf(ResponseState.Loading, mockGenres)
+            coEvery { moviesRepository.upcoming() } returns flowOf(ResponseState.Loading, mockMovies)
+            coEvery { moviesRepository.nowPlaying() } returns flowOf(ResponseState.Loading, mockMovies)
 
-        viewModel.loadMovies()
-        advanceUntilIdle()
+            viewModel.loadMovies()
+            advanceUntilIdle()
 
-        val state = viewModel.homeMoviesStateFlow.value
-
-        assertEquals(mockMovies, state.trending)
-        assertEquals(mockMovies, state.popular)
-        assertEquals(mockMovies, state.upcoming)
-        assertEquals(mockMovies, state.nowPlaying)
-        assertEquals(mockGenres, state.genres)
-        assertTrue(state.trending is ResponseState.Success)
-    }
+            val state = viewModel.homeMoviesStateFlow.value
+            assertEquals(mockError, state.trending)
+            assertEquals(mockMovies, state.popular)
+            assertEquals(mockGenres, state.genres)
+        }
 
     @Test
-    fun `loadMovies should update trending list with Error when its repository fails`() = runTest {
-        coEvery { moviesRepository.trending() } returns flowOf(ResponseState.Loading, mockError)
-        coEvery { moviesRepository.popular() } returns flowOf(ResponseState.Loading, mockMovies)
-        coEvery { genresRepository.genreList() } returns flowOf(ResponseState.Loading, mockGenres)
-        coEvery { moviesRepository.upcoming() } returns flowOf(ResponseState.Loading, mockMovies)
-        coEvery { moviesRepository.nowPlaying() } returns flowOf(ResponseState.Loading, mockMovies)
+    fun `loadMovies should update genre list with Error when its repository fails`() =
+        runTest {
+            coEvery { moviesRepository.trending() } returns flowOf(ResponseState.Loading, mockMovies)
+            coEvery { genresRepository.genreList() } returns flowOf(ResponseState.Loading, mockError)
+            coEvery { moviesRepository.popular() } returns flowOf(ResponseState.Loading, mockMovies)
+            coEvery { moviesRepository.upcoming() } returns flowOf(ResponseState.Loading, mockMovies)
+            coEvery { moviesRepository.nowPlaying() } returns flowOf(ResponseState.Loading, mockMovies)
 
-        viewModel.loadMovies()
-        advanceUntilIdle()
+            viewModel.loadMovies()
+            advanceUntilIdle()
 
-        val state = viewModel.homeMoviesStateFlow.value
-        assertEquals(mockError, state.trending)
-        assertEquals(mockMovies, state.popular)
-        assertEquals(mockGenres, state.genres)
-    }
-
-    @Test
-    fun `loadMovies should update genre list with Error when its repository fails`() = runTest {
-        coEvery { moviesRepository.trending() } returns flowOf(ResponseState.Loading, mockMovies)
-        coEvery { genresRepository.genreList() } returns flowOf(ResponseState.Loading, mockError)
-        coEvery { moviesRepository.popular() } returns flowOf(ResponseState.Loading, mockMovies)
-        coEvery { moviesRepository.upcoming() } returns flowOf(ResponseState.Loading, mockMovies)
-        coEvery { moviesRepository.nowPlaying() } returns flowOf(ResponseState.Loading, mockMovies)
-
-        viewModel.loadMovies()
-        advanceUntilIdle()
-
-        val state = viewModel.homeMoviesStateFlow.value
-        assertEquals(mockError, state.genres)
-        assertEquals(mockMovies, state.trending)
-        assertEquals(mockMovies, state.popular)
-    }
+            val state = viewModel.homeMoviesStateFlow.value
+            assertEquals(mockError, state.genres)
+            assertEquals(mockMovies, state.trending)
+            assertEquals(mockMovies, state.popular)
+        }
 }

@@ -9,5 +9,5 @@ data class ErrorBody(
     @SerialName("status_code")
     val statusCode: Int = 0,
     @SerialName("status_message")
-    val statusMessage: String = ""
+    val statusMessage: String = "",
 )

@@ -10,7 +10,6 @@ import dev.esteban.network.ResponseState
 import dev.esteban.network.error.NetworkErrorMapper
 import dev.esteban.network.mapper
 import dev.esteban.network.onError
-import dev.esteban.network.startFlow
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -19,14 +18,17 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GenresRepositoryImpl @Inject constructor(
-    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
-    private val genresMapper: GenresMapper,
-    private val dataSource: GenresDataSource
-) : GenresRepository {
-    override suspend fun genreList(): Flow<ResponseState<List<GenreModel>>> = flow {
-        emit(dataSource.genreList())
-    }.mapper(genresMapper)
-        .onError(NetworkErrorMapper())
-        .flowOn(ioDispatcher)
-}
+class GenresRepositoryImpl
+    @Inject
+    constructor(
+        @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
+        private val genresMapper: GenresMapper,
+        private val dataSource: GenresDataSource,
+    ) : GenresRepository {
+        override suspend fun genreList(): Flow<ResponseState<List<GenreModel>>> =
+            flow {
+                emit(dataSource.genreList())
+            }.mapper(genresMapper)
+                .onError(NetworkErrorMapper())
+                .flowOn(ioDispatcher)
+    }

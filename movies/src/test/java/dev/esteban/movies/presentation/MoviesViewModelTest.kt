@@ -21,7 +21,6 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MoviesViewModelTest {
-
     private lateinit var viewModel: MoviesViewModel
     private val repository: MoviesRepository = mockk()
 
@@ -32,7 +31,10 @@ class MoviesViewModelTest {
         viewModel = MoviesViewModel(repository)
     }
 
-    private fun mockMovie(id: Int, title: String = "Movie $id") = MovieModel(
+    private fun mockMovie(
+        id: Int,
+        title: String = "Movie $id",
+    ) = MovieModel(
         id = id,
         title = title,
         originalTitle = title,
@@ -46,31 +48,54 @@ class MoviesViewModelTest {
         posterPath = null,
         releaseDate = "2020-01-01",
         voteAverage = 7.5,
-        voteCount = 100
+        voteCount = 100,
     )
 
-    private val diffCallback = object : DiffUtil.ItemCallback<MovieModel>() {
-        override fun areItemsTheSame(oldItem: MovieModel, newItem: MovieModel): Boolean =
-            oldItem.id == newItem.id
+    private val diffCallback =
+        object : DiffUtil.ItemCallback<MovieModel>() {
+            override fun areItemsTheSame(
+                oldItem: MovieModel,
+                newItem: MovieModel,
+            ): Boolean = oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: MovieModel, newItem: MovieModel): Boolean =
-            oldItem == newItem
-    }
+            override fun areContentsTheSame(
+                oldItem: MovieModel,
+                newItem: MovieModel,
+            ): Boolean = oldItem == newItem
+        }
 
-    private val updateCallback = object : ListUpdateCallback {
-        override fun onInserted(position: Int, count: Int) {}
-        override fun onRemoved(position: Int, count: Int) {}
-        override fun onMoved(from: Int, to: Int) {}
-        override fun onChanged(position: Int, count: Int, payload: Any?) {}
-    }
+    private val updateCallback =
+        object : ListUpdateCallback {
+            override fun onInserted(
+                position: Int,
+                count: Int,
+            ) {}
+
+            override fun onRemoved(
+                position: Int,
+                count: Int,
+            ) {}
+
+            override fun onMoved(
+                from: Int,
+                to: Int,
+            ) {}
+
+            override fun onChanged(
+                position: Int,
+                count: Int,
+                payload: Any?,
+            ) {}
+        }
 
     private suspend fun PagingData<MovieModel>.toList(): List<MovieModel> {
-        val differ = androidx.paging.AsyncPagingDataDiffer(
-            diffCallback = diffCallback,
-            updateCallback = updateCallback,
-            mainDispatcher = testDispatcher,
-            workerDispatcher = testDispatcher
-        )
+        val differ =
+            androidx.paging.AsyncPagingDataDiffer(
+                diffCallback = diffCallback,
+                updateCallback = updateCallback,
+                mainDispatcher = testDispatcher,
+                workerDispatcher = testDispatcher,
+            )
 
         differ.submitData(this)
 
@@ -78,58 +103,65 @@ class MoviesViewModelTest {
     }
 
     @Test
-    fun `movies returns paging data from repository`() = runTest(testDispatcher) {
-        val fakeMovies = listOf(
-            mockMovie(1, "Batman"),
-            mockMovie(2, "Superman")
-        )
+    fun `movies returns paging data from repository`() =
+        runTest(testDispatcher) {
+            val fakeMovies =
+                listOf(
+                    mockMovie(1, "Batman"),
+                    mockMovie(2, "Superman"),
+                )
 
-        val pagingData = PagingData.from(fakeMovies)
+            val pagingData = PagingData.from(fakeMovies)
 
-        coEvery {
-            repository.getMoviesPagingByType(
-                MoviesEndpointType.NOW_PLAYING,
-                null
-            )
-        } returns flowOf(pagingData)
+            coEvery {
+                repository.getMoviesPagingByType(
+                    MoviesEndpointType.NOW_PLAYING,
+                    null,
+                )
+            } returns flowOf(pagingData)
 
-        val resultFlow: Flow<PagingData<MovieModel>> =
-            viewModel.movies(MoviesEndpointType.NOW_PLAYING)
+            val resultFlow: Flow<PagingData<MovieModel>> =
+                viewModel.movies(MoviesEndpointType.NOW_PLAYING)
 
-        val collected = resultFlow.first().toList()
+            val collected = resultFlow.first().toList()
 
-        assertEquals(2, collected.size)
-        assertEquals("Batman", collected[0].title)
-        assertEquals("Superman", collected[1].title)
-    }
-
-    @Test
-    fun `movies sends genres parameter to repository`() = runTest(testDispatcher) {
-        val pagingData = PagingData.from(
-            listOf(mockMovie(10, "Action Movie"))
-        )
-        coEvery {
-            repository.getMoviesPagingByType(MoviesEndpointType.GENRE, "28")
-        } returns flowOf(pagingData)
-        val resultFlow = viewModel.movies(MoviesEndpointType.GENRE, "28")
-        val collected = resultFlow.first().toList()
-
-        assertEquals(1, collected.size)
-        assertEquals("Action Movie", collected[0].title)
-    }
+            assertEquals(2, collected.size)
+            assertEquals("Batman", collected[0].title)
+            assertEquals("Superman", collected[1].title)
+        }
 
     @Test
-    fun `movies returns empty list when repository emits empty paging`() = runTest(testDispatcher) {
-        val pagingData = PagingData.from(emptyList<MovieModel>())
+    fun `movies sends genres parameter to repository`() =
+        runTest(testDispatcher) {
+            val pagingData =
+                PagingData.from(
+                    listOf(mockMovie(10, "Action Movie")),
+                )
+            coEvery {
+                repository.getMoviesPagingByType(MoviesEndpointType.GENRE, "28")
+            } returns flowOf(pagingData)
+            val resultFlow = viewModel.movies(MoviesEndpointType.GENRE, "28")
+            val collected = resultFlow.first().toList()
 
-        coEvery {
-            repository.getMoviesPagingByType(MoviesEndpointType.UPCOMING, null)
-        } returns flowOf(pagingData)
+            assertEquals(1, collected.size)
+            assertEquals("Action Movie", collected[0].title)
+        }
 
-        val collected = viewModel.movies(MoviesEndpointType.UPCOMING)
-            .first()
-            .toList()
+    @Test
+    fun `movies returns empty list when repository emits empty paging`() =
+        runTest(testDispatcher) {
+            val pagingData = PagingData.from(emptyList<MovieModel>())
 
-        assertEquals(0, collected.size)
-    }
+            coEvery {
+                repository.getMoviesPagingByType(MoviesEndpointType.UPCOMING, null)
+            } returns flowOf(pagingData)
+
+            val collected =
+                viewModel
+                    .movies(MoviesEndpointType.UPCOMING)
+                    .first()
+                    .toList()
+
+            assertEquals(0, collected.size)
+        }
 }

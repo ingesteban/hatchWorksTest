@@ -27,20 +27,21 @@ import dev.esteban.hatchworkstest.designsystem.theme.HatchWorksTestTheme
 fun GenericErrorScreen(
     title: String = stringResource(R.string.error_title_default),
     message: String = stringResource(R.string.error_message_default),
-    onRetryClick: () -> Unit
+    onRetryClick: () -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(xl),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(xl),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Icon(
             imageVector = Icons.Default.Warning,
             contentDescription = "Error",
             tint = HatchWorksTestTheme.colors.error,
-            modifier = Modifier.size(xxxl)
+            modifier = Modifier.size(xxxl),
         )
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -49,14 +50,14 @@ fun GenericErrorScreen(
             text = title,
             style = HatchWorksTestTheme.typography.lgBold,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 8.dp),
         )
 
         Text(
             text = message,
             style = HatchWorksTestTheme.typography.mdMedium,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = 16.dp),
         )
 
         Spacer(modifier = Modifier.height(48.dp))
@@ -65,7 +66,7 @@ fun GenericErrorScreen(
             text = stringResource(R.string.button_retry),
             modifier = Modifier.padding(vertical = md),
             horizontalArrangement = Arrangement.Center,
-            onClick = onRetryClick
+            onClick = onRetryClick,
         )
     }
 }

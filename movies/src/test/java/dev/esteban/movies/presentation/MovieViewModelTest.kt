@@ -27,7 +27,6 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MovieViewModelTest {
-
     private lateinit var viewModel: MovieViewModel
     private val moviesRepository: MoviesRepository = mockk()
 
@@ -39,95 +38,103 @@ class MovieViewModelTest {
         viewModel = MovieViewModel(moviesRepository)
     }
 
-    private fun mockMovieDetail() = MovieDetailModel(
-        adult = false,
-        backdropPath = "/backdrop.jpg",
-        belongsToCollection = null,
-        budget = 185000000,
-        genres = emptyList(),
-        homepage = null,
-        id = 10,
-        imdbId = "tt0468569",
-        originCountry = listOf("US"),
-        originalLanguage = "en",
-        originalTitle = "Original",
-        overview = "Nice movie",
-        popularity = 1000.0,
-        posterPath = "/poster.jpg",
-        productionCompanies = emptyList(),
-        productionCountries = emptyList(),
-        releaseDate = "2020-01-01",
-        revenue = 100_000_000,
-        runtime = 120,
-        spokenLanguages = emptyList(),
-        status = "Released",
-        tagline = "Epic tagline",
-        title = "Movie Title",
-        video = false,
-        voteAverage = 8.5,
-        voteCount = 10000
-    )
-
-    @Test
-    fun `movieDetail should emit Loading and then Success when repo returns Success`() = runTest {
-        val expectedState = ResponseState.Success(mockMovieDetail())
-        coEvery {
-            moviesRepository.movieDetail("10")
-        } returns flowOf(ResponseState.Loading, expectedState)
-        val emissions = mutableListOf<ResponseState<MovieDetailModel>>()
-        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
-            viewModel.movieDetailStateFlow.toList(emissions)
-        }
-
-        viewModel.movieDetail("10")
-        advanceUntilIdle()
-
-        assertEquals(ResponseState.Idle, emissions.first())
-        assertTrue(emissions.contains(ResponseState.Loading))
-        assertEquals(expectedState, emissions.last())
-    }
-
-    @Test
-    fun `movieDetail should emit Loading and then Error when repo returns Error`() = runTest {
-        val errorState = ResponseState.Error(
-            errorType = ErrorType.DEFAULT,
-            errorBody = ErrorBody(
-                success = false,
-                statusCode = 404,
-                statusMessage = "Not Found"
-            ),
-            httpErrorCode = 404
+    private fun mockMovieDetail() =
+        MovieDetailModel(
+            adult = false,
+            backdropPath = "/backdrop.jpg",
+            belongsToCollection = null,
+            budget = 185000000,
+            genres = emptyList(),
+            homepage = null,
+            id = 10,
+            imdbId = "tt0468569",
+            originCountry = listOf("US"),
+            originalLanguage = "en",
+            originalTitle = "Original",
+            overview = "Nice movie",
+            popularity = 1000.0,
+            posterPath = "/poster.jpg",
+            productionCompanies = emptyList(),
+            productionCountries = emptyList(),
+            releaseDate = "2020-01-01",
+            revenue = 100_000_000,
+            runtime = 120,
+            spokenLanguages = emptyList(),
+            status = "Released",
+            tagline = "Epic tagline",
+            title = "Movie Title",
+            video = false,
+            voteAverage = 8.5,
+            voteCount = 10000,
         )
-        coEvery { moviesRepository.movieDetail("10") } returns flowOf(
-            ResponseState.Loading, errorState
-        )
-        val emissions = mutableListOf<ResponseState<MovieDetailModel>>()
-        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
-            viewModel.movieDetailStateFlow.toList(emissions)
-        }
-
-        viewModel.movieDetail("10")
-        advanceUntilIdle()
-
-        assertEquals(ResponseState.Idle, emissions.first())
-        assertTrue(emissions.contains(ResponseState.Loading))
-        assertEquals(errorState, emissions.last())
-    }
 
     @Test
-    fun `movieDetail should stay Idle when repository returns only Idle`() = runTest {
-        coEvery { moviesRepository.movieDetail("10") } returns flowOf(ResponseState.Idle)
-        val emissions = mutableListOf<ResponseState<MovieDetailModel>>()
+    fun `movieDetail should emit Loading and then Success when repo returns Success`() =
+        runTest {
+            val expectedState = ResponseState.Success(mockMovieDetail())
+            coEvery {
+                moviesRepository.movieDetail("10")
+            } returns flowOf(ResponseState.Loading, expectedState)
+            val emissions = mutableListOf<ResponseState<MovieDetailModel>>()
+            backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+                viewModel.movieDetailStateFlow.toList(emissions)
+            }
 
-        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
-            viewModel.movieDetailStateFlow.toList(emissions)
+            viewModel.movieDetail("10")
+            advanceUntilIdle()
+
+            assertEquals(ResponseState.Idle, emissions.first())
+            assertTrue(emissions.contains(ResponseState.Loading))
+            assertEquals(expectedState, emissions.last())
         }
 
-        viewModel.movieDetail("10")
-        advanceUntilIdle()
+    @Test
+    fun `movieDetail should emit Loading and then Error when repo returns Error`() =
+        runTest {
+            val errorState =
+                ResponseState.Error(
+                    errorType = ErrorType.DEFAULT,
+                    errorBody =
+                        ErrorBody(
+                            success = false,
+                            statusCode = 404,
+                            statusMessage = "Not Found",
+                        ),
+                    httpErrorCode = 404,
+                )
+            coEvery { moviesRepository.movieDetail("10") } returns
+                flowOf(
+                    ResponseState.Loading,
+                    errorState,
+                )
+            val emissions = mutableListOf<ResponseState<MovieDetailModel>>()
+            backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+                viewModel.movieDetailStateFlow.toList(emissions)
+            }
 
-        assertEquals(listOf(ResponseState.Idle), emissions.distinct())
-    }
+            viewModel.movieDetail("10")
+            advanceUntilIdle()
+
+            assertEquals(ResponseState.Idle, emissions.first())
+            assertTrue(emissions.contains(ResponseState.Loading))
+            assertEquals(errorState, emissions.last())
+        }
+
+    @Test
+    fun `movieDetail should stay Idle when repository returns only Idle`() =
+        runTest {
+            coEvery { moviesRepository.movieDetail("10") } returns flowOf(ResponseState.Idle)
+            val emissions = mutableListOf<ResponseState<MovieDetailModel>>()
+
+            backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+                viewModel.movieDetailStateFlow.toList(emissions)
+            }
+
+            viewModel.movieDetail("10")
+            advanceUntilIdle()
+
+            assertEquals(listOf(ResponseState.Idle), emissions.distinct())
+        }
 
     @After
     fun tearDown() {

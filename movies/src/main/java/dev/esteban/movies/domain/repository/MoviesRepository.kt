@@ -1,9 +1,9 @@
 package dev.esteban.movies.domain.repository
 
 import androidx.paging.PagingData
-import dev.esteban.movies.util.MoviesEndpointType
 import dev.esteban.movies.domain.model.MovieDetailModel
 import dev.esteban.movies.domain.model.MovieModel
+import dev.esteban.movies.util.MoviesEndpointType
 import dev.esteban.network.ResponseState
 import kotlinx.coroutines.flow.Flow
 
@@ -24,6 +24,6 @@ interface MoviesRepository {
 
     fun getMoviesPagingByType(
         type: MoviesEndpointType,
-        genres: String?
+        genres: String?,
     ): Flow<PagingData<MovieModel>>
 }

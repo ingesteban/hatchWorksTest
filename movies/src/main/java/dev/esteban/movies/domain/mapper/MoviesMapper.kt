@@ -11,28 +11,31 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MoviesMapper @Inject constructor() :
-    Mapper<NetworkMoviesResponse, ResponseState<List<MovieModel>>> {
-    override fun apply(input: NetworkMoviesResponse): ResponseState<List<MovieModel>> {
-        return ResponseState.Success(input.results.map { movieResponse ->
-            getMovieModel(movieResponse)
-        })
-    }
+class MoviesMapper
+    @Inject
+    constructor() : Mapper<NetworkMoviesResponse, ResponseState<List<MovieModel>>> {
+        override fun apply(input: NetworkMoviesResponse): ResponseState<List<MovieModel>> =
+            ResponseState.Success(
+                input.results.map { movieResponse ->
+                    getMovieModel(movieResponse)
+                },
+            )
 
-    private fun getMovieModel(movieResponse: NetworkMovieResponse) = MovieModel(
-        id = movieResponse.id,
-        title = movieResponse.title,
-        originalTitle = movieResponse.originalTitle,
-        overview = movieResponse.overview,
-        video = movieResponse.video,
-        adult = movieResponse.adult,
-        posterPath = IMAGE_URL_POSTER + movieResponse.posterPath,
-        backdropPath = IMAGE_URL_BACKDROP + movieResponse.backdropPath,
-        genreIds = movieResponse.genreIds,
-        originalLanguage = movieResponse.originalLanguage,
-        popularity = movieResponse.popularity,
-        releaseDate = movieResponse.releaseDate,
-        voteAverage = movieResponse.voteAverage,
-        voteCount = movieResponse.voteCount,
-    )
-}
+        private fun getMovieModel(movieResponse: NetworkMovieResponse) =
+            MovieModel(
+                id = movieResponse.id,
+                title = movieResponse.title,
+                originalTitle = movieResponse.originalTitle,
+                overview = movieResponse.overview,
+                video = movieResponse.video,
+                adult = movieResponse.adult,
+                posterPath = IMAGE_URL_POSTER + movieResponse.posterPath,
+                backdropPath = IMAGE_URL_BACKDROP + movieResponse.backdropPath,
+                genreIds = movieResponse.genreIds,
+                originalLanguage = movieResponse.originalLanguage,
+                popularity = movieResponse.popularity,
+                releaseDate = movieResponse.releaseDate,
+                voteAverage = movieResponse.voteAverage,
+                voteCount = movieResponse.voteCount,
+            )
+    }

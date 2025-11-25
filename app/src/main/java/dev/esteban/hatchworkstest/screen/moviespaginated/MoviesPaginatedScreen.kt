@@ -34,15 +34,16 @@ fun MoviesPaginatedScreen(
     genres: String? = null,
     navigateToMovieDetail: (String, String) -> Unit,
 ) {
-    val movies = moviesViewModel
-        .movies(type, genres)
-        .collectAsLazyPagingItems()
+    val movies =
+        moviesViewModel
+            .movies(type, genres)
+            .collectAsLazyPagingItems()
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(sm),
         verticalArrangement = Arrangement.spacedBy(sm),
-        horizontalArrangement = Arrangement.spacedBy(sm)
+        horizontalArrangement = Arrangement.spacedBy(sm),
     ) {
         items(movies.itemCount) { index ->
             val movie = movies[index]
@@ -71,10 +72,11 @@ fun MoviesPaginatedScreen(
 @Composable
 fun LoadingMoreItem() {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        contentAlignment = Alignment.Center
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(strokeWidth = 2.dp)
     }
@@ -83,10 +85,11 @@ fun LoadingMoreItem() {
 @Composable
 fun ErrorItem(retry: () -> Unit) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text("Algo salió mal", color = Color.Red)
         Spacer(modifier = Modifier.height(8.dp))

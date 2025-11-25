@@ -7,12 +7,12 @@ import dev.esteban.hatchworkstest.navigation.ScreenNavigation
 
 fun NavGraphBuilder.moviesGraph(
     navController: NavHostController,
-    setTitle: (String?) -> Unit
+    setTitle: (String?) -> Unit,
 ) {
     ScreenNavigation.movies.forEach { screen ->
         composable(
             screen.route,
-            screen.arguments
+            screen.arguments,
         ) { navBackStackEntry ->
             screen.Content(navController, navBackStackEntry, setTitle)
         }

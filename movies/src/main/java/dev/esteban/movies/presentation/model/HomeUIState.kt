@@ -6,10 +6,8 @@ import dev.esteban.network.ResponseState
 
 data class HomeUIState(
     val popular: ResponseState<List<MovieModel>> = ResponseState.Loading,
-
     val trending: ResponseState<List<MovieModel>> = ResponseState.Loading,
     val nowPlaying: ResponseState<List<MovieModel>> = ResponseState.Loading,
     val upcoming: ResponseState<List<MovieModel>> = ResponseState.Loading,
-
-    val genres: ResponseState<List<GenreModel>> = ResponseState.Loading
+    val genres: ResponseState<List<GenreModel>> = ResponseState.Loading,
 )

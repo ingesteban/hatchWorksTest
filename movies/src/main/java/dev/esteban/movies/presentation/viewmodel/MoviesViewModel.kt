@@ -12,12 +12,16 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
-class MoviesViewModel @Inject constructor(val moviesRepository: MoviesRepository) : ViewModel() {
-    fun movies(
-        type: MoviesEndpointType,
-        genres: String? = null
-    ): Flow<PagingData<MovieModel>> {
-        return moviesRepository.getMoviesPagingByType(type, genres)
-            .cachedIn(viewModelScope)
+class MoviesViewModel
+    @Inject
+    constructor(
+        val moviesRepository: MoviesRepository,
+    ) : ViewModel() {
+        fun movies(
+            type: MoviesEndpointType,
+            genres: String? = null,
+        ): Flow<PagingData<MovieModel>> =
+            moviesRepository
+                .getMoviesPagingByType(type, genres)
+                .cachedIn(viewModelScope)
     }
-}

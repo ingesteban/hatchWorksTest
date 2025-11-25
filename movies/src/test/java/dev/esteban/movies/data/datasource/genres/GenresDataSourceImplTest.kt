@@ -14,7 +14,6 @@ import org.junit.Test
 import java.io.IOException
 
 class GenresDataSourceImplTest {
-
     private lateinit var dataSource: GenresDataSourceImpl
     private val testDispatcher = StandardTestDispatcher()
 
@@ -26,27 +25,29 @@ class GenresDataSourceImplTest {
     }
 
     @Test
-    fun `genreList should call api`() = runTest(testDispatcher) {
-        val expectedResponse: NetworkGenresResponse = mockk()
-        coEvery { genresApi.genreList() } returns expectedResponse
-        val result = dataSource.genreList()
+    fun `genreList should call api`() =
+        runTest(testDispatcher) {
+            val expectedResponse: NetworkGenresResponse = mockk()
+            coEvery { genresApi.genreList() } returns expectedResponse
+            val result = dataSource.genreList()
 
-        assertEquals(expectedResponse, result)
-        coVerify(exactly = 1) { genresApi.genreList() }
-    }
-
-    @Test
-    fun `genreList should call api with error`() = runTest(testDispatcher) {
-        val exception = IOException("Get genres failed")
-
-        coEvery { genresApi.genreList() } throws exception
-        try {
-            dataSource.genreList()
-            assert(false) { "Expected exception to be thrown" }
-        } catch (e: Exception) {
-            assertEquals("Get genres failed", e.message)
+            assertEquals(expectedResponse, result)
+            coVerify(exactly = 1) { genresApi.genreList() }
         }
 
-        coVerify(exactly = 1) { genresApi.genreList() }
-    }
+    @Test
+    fun `genreList should call api with error`() =
+        runTest(testDispatcher) {
+            val exception = IOException("Get genres failed")
+
+            coEvery { genresApi.genreList() } throws exception
+            try {
+                dataSource.genreList()
+                assert(false) { "Expected exception to be thrown" }
+            } catch (e: Exception) {
+                assertEquals("Get genres failed", e.message)
+            }
+
+            coVerify(exactly = 1) { genresApi.genreList() }
+        }
 }

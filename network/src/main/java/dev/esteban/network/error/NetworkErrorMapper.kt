@@ -16,13 +16,12 @@ private const val HTTP_CODE_500 = 500
 private const val HTTP_CODE_502 = 502
 
 class NetworkErrorMapper<T> : Mapper<Throwable, ResponseState<T>> {
-    override fun apply(input: Throwable): ResponseState<T> {
-        return ResponseState.Error(
+    override fun apply(input: Throwable): ResponseState<T> =
+        ResponseState.Error(
             errorType = errorViewState(throwable = input),
             errorBody = getErrorBody(throwable = input),
-            httpErrorCode = getHttpCodeError(throwable = input)
+            httpErrorCode = getHttpCodeError(throwable = input),
         )
-    }
 
     private fun errorViewState(throwable: Throwable): ErrorType {
         return when (throwable) {
@@ -56,8 +55,8 @@ class NetworkErrorMapper<T> : Mapper<Throwable, ResponseState<T>> {
         }
     }
 
-    private fun getErrorBody(throwable: Throwable): ErrorBody {
-        return try {
+    private fun getErrorBody(throwable: Throwable): ErrorBody =
+        try {
             when (throwable) {
                 is HttpException -> {
                     val errorBodyString = throwable.response()?.errorBody()?.string()
@@ -73,5 +72,4 @@ class NetworkErrorMapper<T> : Mapper<Throwable, ResponseState<T>> {
         } catch (e: Exception) {
             ErrorBody(statusMessage = e.message.orEmpty())
         }
-    }
 }

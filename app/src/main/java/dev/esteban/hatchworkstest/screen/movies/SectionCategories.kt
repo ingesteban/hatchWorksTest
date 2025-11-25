@@ -25,29 +25,31 @@ import dev.esteban.network.ResponseState
 @Composable
 fun SectionCategories(
     genreState: ResponseState<List<GenreModel>>,
-    onClickGenre: (GenreModel) -> Unit
+    onClickGenre: (GenreModel) -> Unit,
 ) {
     when (genreState) {
         is ResponseState.Error -> Text("Error")
         is ResponseState.Loading -> SectionCategoriesShimmer()
-        is ResponseState.Success -> LazyRow {
-            itemsIndexed(genreState.response) { index, genreItem ->
-                val cardModifier = when {
-                    index == INITIAL_0 -> Modifier.padding(end = xsm)
-                    index == genreState.response.lastIndex -> Modifier.padding(start = xsm)
-                    else -> Modifier.padding(horizontal = xsm)
-                }
-                HatchTertiaryButton(
-                    text = genreItem.name,
-                    modifier = cardModifier
-                ) {
-                    onClickGenre(genreItem)
+        is ResponseState.Success ->
+            LazyRow {
+                itemsIndexed(genreState.response) { index, genreItem ->
+                    val cardModifier =
+                        when {
+                            index == INITIAL_0 -> Modifier.padding(end = xsm)
+                            index == genreState.response.lastIndex -> Modifier.padding(start = xsm)
+                            else -> Modifier.padding(horizontal = xsm)
+                        }
+                    HatchTertiaryButton(
+                        text = genreItem.name,
+                        modifier = cardModifier,
+                    ) {
+                        onClickGenre(genreItem)
+                    }
                 }
             }
-        }
 
         else -> {
-            //NO_OP
+            // NO_OP
         }
     }
 }
@@ -57,11 +59,12 @@ private fun SectionCategoriesShimmer() {
     LazyRow {
         items(LOADING_ITEMS) {
             Shimmer(
-                modifier = Modifier
-                    .clip(LocalHatchWorksTestShape.current.large)
-                    .height(xxl)
-                    .width(xxxl)
-                    .fillMaxWidth()
+                modifier =
+                    Modifier
+                        .clip(LocalHatchWorksTestShape.current.large)
+                        .height(xxl)
+                        .width(xxxl)
+                        .fillMaxWidth(),
             )
             Spacer(modifier = Modifier.width(xsm))
         }

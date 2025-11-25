@@ -18,7 +18,6 @@ import org.junit.Before
 import org.junit.Test
 
 class MovieDetailMapperTest {
-
     private lateinit var mapper: MovieDetailMapper
 
     @Before
@@ -28,54 +27,59 @@ class MovieDetailMapperTest {
 
     @Test
     fun `map full movie detail correctly`() {
-        val input = NetworkMovieDetailResponse(
-            adult = false,
-            backdropPath = "/back.jpg",
-            belongsToCollection = NetworkCollectionInfoResponse(
-                id = 10,
-                name = "The Collection",
-                posterPath = "/collPoster.jpg",
-                backdropPath = "/collBackdrop.jpg"
-            ),
-            budget = 150_000_000,
-            genres = listOf(NetworkGenreResponse(id = 1, name = "Action")),
-            homepage = "https://example.com",
-            id = 100,
-            imdbId = "tt1234567",
-            originCountry = listOf("US"),
-            originalLanguage = "en",
-            originalTitle = "Original Movie",
-            overview = "A great movie",
-            popularity = 200.5,
-            posterPath = "/poster.jpg",
-            productionCompanies = listOf(
-                NetworkProductionCompanyResponse(
-                    id = 50,
-                    logoPath = "/compLogo.png",
-                    name = "Marvel",
-                    originCountry = "US"
-                )
-            ),
-            productionCountries = listOf(
-                NetworkProductionCountryResponse(iso = "US", name = "United States")
-            ),
-            releaseDate = "2024-01-01",
-            revenue = 500_000_000,
-            runtime = 120,
-            spokenLanguages = listOf(
-                NetworkSpokenLanguageResponse(
-                    englishName = "English",
-                    iso = "en",
-                    name = "English"
-                )
-            ),
-            status = "Released",
-            tagline = "An awesome tagline",
-            title = "Movie Title",
-            video = false,
-            voteAverage = 8.5,
-            voteCount = 15000
-        )
+        val input =
+            NetworkMovieDetailResponse(
+                adult = false,
+                backdropPath = "/back.jpg",
+                belongsToCollection =
+                    NetworkCollectionInfoResponse(
+                        id = 10,
+                        name = "The Collection",
+                        posterPath = "/collPoster.jpg",
+                        backdropPath = "/collBackdrop.jpg",
+                    ),
+                budget = 150_000_000,
+                genres = listOf(NetworkGenreResponse(id = 1, name = "Action")),
+                homepage = "https://example.com",
+                id = 100,
+                imdbId = "tt1234567",
+                originCountry = listOf("US"),
+                originalLanguage = "en",
+                originalTitle = "Original Movie",
+                overview = "A great movie",
+                popularity = 200.5,
+                posterPath = "/poster.jpg",
+                productionCompanies =
+                    listOf(
+                        NetworkProductionCompanyResponse(
+                            id = 50,
+                            logoPath = "/compLogo.png",
+                            name = "Marvel",
+                            originCountry = "US",
+                        ),
+                    ),
+                productionCountries =
+                    listOf(
+                        NetworkProductionCountryResponse(iso = "US", name = "United States"),
+                    ),
+                releaseDate = "2024-01-01",
+                revenue = 500_000_000,
+                runtime = 120,
+                spokenLanguages =
+                    listOf(
+                        NetworkSpokenLanguageResponse(
+                            englishName = "English",
+                            iso = "en",
+                            name = "English",
+                        ),
+                    ),
+                status = "Released",
+                tagline = "An awesome tagline",
+                title = "Movie Title",
+                video = false,
+                voteAverage = 8.5,
+                voteCount = 15000,
+            )
 
         val result = mapper.apply(input)
         assertTrue(result is ResponseState.Success)
@@ -88,14 +92,18 @@ class MovieDetailMapperTest {
         assertEquals(120, detail.runtime)
 
         assertTrue(
-            detail.posterPath != null && input.posterPath != null && detail.posterPath.contains(
-                input.posterPath
-            )
+            detail.posterPath != null &&
+                input.posterPath != null &&
+                detail.posterPath.contains(
+                    input.posterPath,
+                ),
         )
         assertTrue(
-            detail.backdropPath != null && input.backdropPath != null && detail.backdropPath.contains(
-                input.backdropPath
-            )
+            detail.backdropPath != null &&
+                input.backdropPath != null &&
+                detail.backdropPath.contains(
+                    input.backdropPath,
+                ),
         )
 
         assertEquals(1, detail.genres.size)
@@ -113,34 +121,35 @@ class MovieDetailMapperTest {
 
     @Test
     fun `map minimal movie detail`() {
-        val input = NetworkMovieDetailResponse(
-            adult = true,
-            backdropPath = "",
-            belongsToCollection = null,
-            budget = 0,
-            genres = emptyList(),
-            homepage = null,
-            id = 1,
-            imdbId = null,
-            originCountry = emptyList(),
-            originalLanguage = "",
-            originalTitle = "",
-            overview = "",
-            popularity = 0.0,
-            posterPath = "",
-            productionCompanies = emptyList(),
-            productionCountries = emptyList(),
-            releaseDate = "",
-            revenue = 0,
-            runtime = 0,
-            spokenLanguages = emptyList(),
-            status = "",
-            tagline = "",
-            title = "",
-            video = false,
-            voteAverage = 0.0,
-            voteCount = 0
-        )
+        val input =
+            NetworkMovieDetailResponse(
+                adult = true,
+                backdropPath = "",
+                belongsToCollection = null,
+                budget = 0,
+                genres = emptyList(),
+                homepage = null,
+                id = 1,
+                imdbId = null,
+                originCountry = emptyList(),
+                originalLanguage = "",
+                originalTitle = "",
+                overview = "",
+                popularity = 0.0,
+                posterPath = "",
+                productionCompanies = emptyList(),
+                productionCountries = emptyList(),
+                releaseDate = "",
+                revenue = 0,
+                runtime = 0,
+                spokenLanguages = emptyList(),
+                status = "",
+                tagline = "",
+                title = "",
+                video = false,
+                voteAverage = 0.0,
+                voteCount = 0,
+            )
 
         val result = mapper.apply(input)
         val detail = (result as ResponseState.Success).response
@@ -156,43 +165,45 @@ class MovieDetailMapperTest {
 
     @Test
     fun `map collection info correctly`() {
-        val input = NetworkCollectionInfoResponse(
-            id = 99,
-            name = "Saga",
-            posterPath = "/sagaPoster.jpg",
-            backdropPath = "/sagaBackdrop.jpg"
-        )
-
-        val result = mapper.mapDetailToDomain(
-            NetworkMovieDetailResponse(
-                adult = false,
-                backdropPath = "",
-                belongsToCollection = input,
-                budget = 0,
-                genres = emptyList(),
-                homepage = null,
-                id = 1,
-                imdbId = null,
-                originCountry = emptyList(),
-                originalLanguage = "",
-                originalTitle = "",
-                overview = "",
-                popularity = 0.0,
-                posterPath = "",
-                productionCompanies = emptyList(),
-                productionCountries = emptyList(),
-                releaseDate = "",
-                revenue = 0,
-                runtime = 0,
-                spokenLanguages = emptyList(),
-                status = "",
-                tagline = "",
-                title = "",
-                video = false,
-                voteAverage = 0.0,
-                voteCount = 0
+        val input =
+            NetworkCollectionInfoResponse(
+                id = 99,
+                name = "Saga",
+                posterPath = "/sagaPoster.jpg",
+                backdropPath = "/sagaBackdrop.jpg",
             )
-        )
+
+        val result =
+            mapper.mapDetailToDomain(
+                NetworkMovieDetailResponse(
+                    adult = false,
+                    backdropPath = "",
+                    belongsToCollection = input,
+                    budget = 0,
+                    genres = emptyList(),
+                    homepage = null,
+                    id = 1,
+                    imdbId = null,
+                    originCountry = emptyList(),
+                    originalLanguage = "",
+                    originalTitle = "",
+                    overview = "",
+                    popularity = 0.0,
+                    posterPath = "",
+                    productionCompanies = emptyList(),
+                    productionCountries = emptyList(),
+                    releaseDate = "",
+                    revenue = 0,
+                    runtime = 0,
+                    spokenLanguages = emptyList(),
+                    status = "",
+                    tagline = "",
+                    title = "",
+                    video = false,
+                    voteAverage = 0.0,
+                    voteCount = 0,
+                ),
+            )
 
         val collection = result.belongsToCollection!!
         assertEquals(99, collection.id)
@@ -202,43 +213,45 @@ class MovieDetailMapperTest {
 
     @Test
     fun `map production company correctly`() {
-        val company = NetworkProductionCompanyResponse(
-            id = 1,
-            logoPath = "/logo.png",
-            name = "Pixar",
-            originCountry = "US"
-        )
-
-        val result = mapper.mapDetailToDomain(
-            NetworkMovieDetailResponse(
-                adult = false,
-                backdropPath = "",
-                belongsToCollection = null,
-                budget = 0,
-                genres = emptyList(),
-                homepage = null,
+        val company =
+            NetworkProductionCompanyResponse(
                 id = 1,
-                imdbId = null,
-                originCountry = emptyList(),
-                originalLanguage = "",
-                originalTitle = "",
-                overview = "",
-                popularity = 0.0,
-                posterPath = "",
-                productionCompanies = listOf(company),
-                productionCountries = emptyList(),
-                releaseDate = "",
-                revenue = 0,
-                runtime = 0,
-                spokenLanguages = emptyList(),
-                status = "",
-                tagline = "",
-                title = "",
-                video = false,
-                voteAverage = 0.0,
-                voteCount = 0
+                logoPath = "/logo.png",
+                name = "Pixar",
+                originCountry = "US",
             )
-        )
+
+        val result =
+            mapper.mapDetailToDomain(
+                NetworkMovieDetailResponse(
+                    adult = false,
+                    backdropPath = "",
+                    belongsToCollection = null,
+                    budget = 0,
+                    genres = emptyList(),
+                    homepage = null,
+                    id = 1,
+                    imdbId = null,
+                    originCountry = emptyList(),
+                    originalLanguage = "",
+                    originalTitle = "",
+                    overview = "",
+                    popularity = 0.0,
+                    posterPath = "",
+                    productionCompanies = listOf(company),
+                    productionCountries = emptyList(),
+                    releaseDate = "",
+                    revenue = 0,
+                    runtime = 0,
+                    spokenLanguages = emptyList(),
+                    status = "",
+                    tagline = "",
+                    title = "",
+                    video = false,
+                    voteAverage = 0.0,
+                    voteCount = 0,
+                ),
+            )
 
         val mapped = result.productionCompanies.first()
         assertEquals("Pixar", mapped.name)
@@ -247,42 +260,44 @@ class MovieDetailMapperTest {
 
     @Test
     fun `map spoken language correctly`() {
-        val lang = NetworkSpokenLanguageResponse(
-            englishName = "Spanish",
-            iso = "es",
-            name = "Español"
-        )
-
-        val result = mapper.mapDetailToDomain(
-            NetworkMovieDetailResponse(
-                adult = false,
-                backdropPath = "",
-                belongsToCollection = null,
-                budget = 0,
-                genres = emptyList(),
-                homepage = null,
-                id = 1,
-                imdbId = null,
-                originCountry = emptyList(),
-                originalLanguage = "",
-                originalTitle = "",
-                overview = "",
-                popularity = 0.0,
-                posterPath = "",
-                productionCompanies = emptyList(),
-                productionCountries = emptyList(),
-                releaseDate = "",
-                revenue = 0,
-                runtime = 0,
-                spokenLanguages = listOf(lang),
-                status = "",
-                tagline = "",
-                title = "",
-                video = false,
-                voteAverage = 0.0,
-                voteCount = 0
+        val lang =
+            NetworkSpokenLanguageResponse(
+                englishName = "Spanish",
+                iso = "es",
+                name = "Español",
             )
-        )
+
+        val result =
+            mapper.mapDetailToDomain(
+                NetworkMovieDetailResponse(
+                    adult = false,
+                    backdropPath = "",
+                    belongsToCollection = null,
+                    budget = 0,
+                    genres = emptyList(),
+                    homepage = null,
+                    id = 1,
+                    imdbId = null,
+                    originCountry = emptyList(),
+                    originalLanguage = "",
+                    originalTitle = "",
+                    overview = "",
+                    popularity = 0.0,
+                    posterPath = "",
+                    productionCompanies = emptyList(),
+                    productionCountries = emptyList(),
+                    releaseDate = "",
+                    revenue = 0,
+                    runtime = 0,
+                    spokenLanguages = listOf(lang),
+                    status = "",
+                    tagline = "",
+                    title = "",
+                    video = false,
+                    voteAverage = 0.0,
+                    voteCount = 0,
+                ),
+            )
 
         val mapped = result.spokenLanguages.first()
         assertEquals("Spanish", mapped.englishName)

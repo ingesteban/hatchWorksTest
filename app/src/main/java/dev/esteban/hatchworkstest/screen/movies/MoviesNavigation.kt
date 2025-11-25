@@ -15,7 +15,7 @@ object MoviesNavigation : ScreenNavigation {
     override fun Content(
         navController: NavController,
         navBackStackEntry: NavBackStackEntry,
-        setTitle: (String?) -> Unit
+        setTitle: (String?) -> Unit,
     ) {
         setTitle(null)
         MoviesScreen(
@@ -24,8 +24,8 @@ object MoviesNavigation : ScreenNavigation {
                     MoviePaginatedNavigation.moviesPaginatedRoute(
                         type.name,
                         genreId,
-                        genreName
-                    )
+                        genreName,
+                    ),
                 )
             },
             navigateToSearchMovie = {
@@ -33,7 +33,7 @@ object MoviesNavigation : ScreenNavigation {
             },
             navigateToMovieDetail = { movieId, movieName ->
                 navController.navigate(MovieDetailNavigation.movieRoute(movieId, movieName))
-            }
+            },
         )
     }
 }
