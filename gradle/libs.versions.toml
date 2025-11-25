@@ -21,6 +21,9 @@ constraintlayoutCompose = "1.1.1"
 accompanistPager = "0.36.0"
 coil = "2.7.0"
 pagingCommon = "3.3.6"
+mockk = "1.14.6"
+coroutinesTest = "1.7.3"
+pagingRuntimeKtx = "3.3.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,11 +57,14 @@ accompanist-pager = { group = "com.google.accompanist", name = "accompanist-page
 accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "accompanistPager" }
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesTest" }
 
 esteban-network = { group = "esteban.dev", name = "network" }
 esteban-movies = { group = "esteban.dev", name = "movies" }
 androidx-paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "pagingCommon" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "pagingCommon" }
+androidx-paging-runtime-ktx = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "pagingRuntimeKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

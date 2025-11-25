@@ -6,13 +6,13 @@ import androidx.paging.PagingData
 import dev.esteban.movies.data.datasource.remote.model.NetworkMoviesResponse
 import dev.esteban.movies.data.datasource.remote.movies.MoviesDataSource
 import dev.esteban.movies.data.datasource.remote.movies.paging.MoviesPagingSourceFactory
-import dev.esteban.movies.util.MoviesEndpointType
 import dev.esteban.movies.domain.mapper.MovieDetailMapper
 import dev.esteban.movies.domain.mapper.MovieMapper
 import dev.esteban.movies.domain.mapper.MoviesMapper
 import dev.esteban.movies.domain.model.MovieDetailModel
 import dev.esteban.movies.domain.model.MovieModel
 import dev.esteban.movies.domain.repository.MoviesRepository
+import dev.esteban.movies.util.MoviesEndpointType
 import dev.esteban.network.AppDispatchers.IO
 import dev.esteban.network.Dispatcher
 import dev.esteban.network.ResponseState
@@ -58,19 +58,18 @@ class MoviesRepositoryImpl @Inject constructor(
         fetchMovies { moviesDataSource.discover(genres = genres) }
             .startFlow(ResponseState.Loading)
 
-    override suspend fun movieDetail(movieId: String): Flow<ResponseState<MovieDetailModel>> = flow {
-        emit(moviesDataSource.movieDetail(movieId))
-    }.mapper(movieDetailMapper)
-        .onError(NetworkErrorMapper())
-        .flowOn(ioDispatcher)
-        .startFlow(ResponseState.Loading)
+    override suspend fun movieDetail(movieId: String): Flow<ResponseState<MovieDetailModel>> =
+        flow {
+            emit(moviesDataSource.movieDetail(movieId))
+        }.mapper(movieDetailMapper)
+            .onError(NetworkErrorMapper())
+            .flowOn(ioDispatcher)
+            .startFlow(ResponseState.Loading)
 
     private fun fetchMovies(
         serviceCall: suspend () -> NetworkMoviesResponse
-    ): Flow<ResponseState<List<MovieModel>>> = flow {
-        delay(3000)
-        emit(serviceCall())
-    }.mapper(moviesMapper)
+    ): Flow<ResponseState<List<MovieModel>>> = flow { emit(serviceCall()) }
+        .mapper(moviesMapper)
         .onError(NetworkErrorMapper())
         .flowOn(ioDispatcher)
 
@@ -84,5 +83,4 @@ class MoviesRepositoryImpl @Inject constructor(
         }
     ).flow
         .mapper(movieMapper)
-
 }

@@ -50,9 +50,12 @@ dependencies {
 
     // Dagger hilt
     implementation(libs.google.dagger.hilt.android)
+    implementation(libs.androidx.paging.runtime.ktx)
     ksp(libs.google.dagger.hilt.compiler)
     ksp(libs.google.dagger.hilt.android.compiler)
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
 }

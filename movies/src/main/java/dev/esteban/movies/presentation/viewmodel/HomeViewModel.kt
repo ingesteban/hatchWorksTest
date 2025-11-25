@@ -28,11 +28,11 @@ class HomeViewModel @Inject constructor(
 
     fun loadMovies() {
         viewModelScope.launch {
-            val trendingDeferred = async { moviesRepository.trending().first() }
-            val popularDeferred = async { moviesRepository.popular().first() }
-            val upcomingDeferred = async { moviesRepository.upcoming().first() }
-            val nowPlayingDeferred = async { moviesRepository.nowPlaying().first() }
-            val genreListDeferred = async { genresRepository.genreList().first() }
+            val trendingDeferred = async { moviesRepository.trending().first { it !is ResponseState.Loading } }
+            val popularDeferred = async { moviesRepository.popular().first { it !is ResponseState.Loading } }
+            val upcomingDeferred = async { moviesRepository.upcoming().first { it !is ResponseState.Loading } }
+            val nowPlayingDeferred = async { moviesRepository.nowPlaying().first { it !is ResponseState.Loading } }
+            val genreListDeferred = async { genresRepository.genreList().first { it !is ResponseState.Loading } }
 
             handleDeferredResult(trendingDeferred) { movies, currentState ->
                 currentState.copy(trending = movies)

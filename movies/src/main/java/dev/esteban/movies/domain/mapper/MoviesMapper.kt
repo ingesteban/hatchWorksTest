@@ -10,7 +10,6 @@ import dev.esteban.network.ResponseState
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 @Singleton
 class MoviesMapper @Inject constructor() :
     Mapper<NetworkMoviesResponse, ResponseState<List<MovieModel>>> {
