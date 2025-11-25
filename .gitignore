@@ -1,0 +1,43 @@
+# ------------------------------------
+# Archivos y directorios generados por el IDE/Android Studio
+# ------------------------------------
+.idea/
+*.iml
+*.iws
+*.ipr
+/local.properties
+/hatchWorksTest/local.properties # Si tienes un local.properties dentro del modulo
+
+# ------------------------------------
+# Archivos y directorios de macOS
+# ------------------------------------
+.DS_Store
+
+# ------------------------------------
+# Directorios de Build y Salida de Gradle
+# ------------------------------------
+/build
+/app/build
+/movies/build
+/network/build
+# Esto ignora todas las carpetas build/ en todos los módulos
+*/build/
+
+# ------------------------------------
+# Archivos de caché de Gradle
+# ------------------------------------
+.gradle/
+gradle-wrapper.jar
+
+# ------------------------------------
+# Archivos generados
+# ------------------------------------
+# Archivos generados de Android NDK/C++ (si aplicara)
+.cxx/
+/captures/
+
+# ------------------------------------
+# Archivos de Demo/Media
+# ------------------------------------
+# Ignorar el archivo de video grande
+hatchWorksTest.mp4
