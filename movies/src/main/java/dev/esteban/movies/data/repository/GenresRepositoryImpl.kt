@@ -26,15 +26,17 @@ import javax.inject.Singleton
  * @property dataSource Remote data source(API) to get categories(genres list).
  */
 @Singleton
-class GenresRepositoryImpl @Inject constructor(
-    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
-    private val genresMapper: GenresMapper,
-    private val dataSource: GenresDataSource,
-) : GenresRepository {
-    override suspend fun genreList(): Flow<ResponseState<List<GenreModel>>> =
-        flow {
-            emit(dataSource.genreList())
-        }.mapper(genresMapper)
-            .onError(NetworkErrorMapper())
-            .flowOn(ioDispatcher)
-}
+class GenresRepositoryImpl
+    @Inject
+    constructor(
+        @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
+        private val genresMapper: GenresMapper,
+        private val dataSource: GenresDataSource,
+    ) : GenresRepository {
+        override suspend fun genreList(): Flow<ResponseState<List<GenreModel>>> =
+            flow {
+                emit(dataSource.genreList())
+            }.mapper(genresMapper)
+                .onError(NetworkErrorMapper())
+                .flowOn(ioDispatcher)
+    }

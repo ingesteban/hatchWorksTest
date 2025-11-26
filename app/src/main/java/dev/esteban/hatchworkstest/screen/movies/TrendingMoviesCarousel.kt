@@ -58,7 +58,6 @@ import dev.esteban.movies.domain.model.MovieModel
 import dev.esteban.network.ResponseState
 import kotlin.math.absoluteValue
 
-
 /**
  * After read multiple articles I get this animated carousel
  *
