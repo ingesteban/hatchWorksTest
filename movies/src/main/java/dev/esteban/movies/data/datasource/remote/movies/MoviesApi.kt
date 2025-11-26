@@ -17,6 +17,10 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+/**
+ * Used to get movies from network
+ * this is the Retrofit interface used to call the movies services
+ **/
 interface MoviesApi {
     @GET(NOW_PLAYING)
     suspend fun nowPlaying(

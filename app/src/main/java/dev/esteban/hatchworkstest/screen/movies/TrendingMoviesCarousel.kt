@@ -58,6 +58,15 @@ import dev.esteban.movies.domain.model.MovieModel
 import dev.esteban.network.ResponseState
 import kotlin.math.absoluteValue
 
+
+/**
+ * After read multiple articles I get this animated carousel
+ *
+ * https://levelup.gitconnected.com/animated-carousel-with-jetpack-compose-7406a5a2b246
+ * https://proandroiddev.com/swipeable-image-carousel-with-smooth-animations-in-jetpack-compose-76eacdc89bfb
+ * https://medium.com/@ali.saranj1384/building-an-intro-screen-with-horizontal-pager-in-jetpack-compose-73c88bfc4492
+ * https://developer.android.com/develop/ui/views/animations/motionlayout/examples?hl=es-419
+ */
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMotionApi::class)
 @Composable
 fun TrendingMoviesCarousel(

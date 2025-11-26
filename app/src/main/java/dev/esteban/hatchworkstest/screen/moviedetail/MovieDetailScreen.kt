@@ -69,9 +69,7 @@ fun MovieDetailContent(
         is ResponseState.Loading -> LoadingWheel()
         is ResponseState.Success -> {
             val movieDetail = stateMovieDetail.response
-            Box(
-                modifier = Modifier.fillMaxSize(),
-            ) {
+            Box(modifier = Modifier.fillMaxSize()) {
                 HatchAsyncImage(
                     path = movieDetail.posterPath,
                     contentScale = ContentScale.Crop,
@@ -93,8 +91,8 @@ fun MovieDetailContent(
                     Column(
                         modifier =
                             Modifier
-                                .background(HatchWorksTestTheme.colors.background) // Usa el color de fondo del tema
-                                .padding(horizontal = lg) // Aplica tu padding horizontal
+                                .background(HatchWorksTestTheme.colors.background)
+                                .padding(horizontal = lg)
                                 .fillMaxWidth(),
                     ) {
                         CategoriesRow(genres = movieDetail.genres)

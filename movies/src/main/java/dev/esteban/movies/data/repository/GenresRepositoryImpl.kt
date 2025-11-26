@@ -17,18 +17,24 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Implementation [GenresRepository].
+ * Source of Truth to get categories data
+ * call [GenresDataSource] (network layer) apply data mapper to [GenreModel].
+ * @property ioDispatcher CoroutineDispatcher to execute (Input/Output).
+ * @property genresMapper Mapper .
+ * @property dataSource Remote data source(API) to get categories(genres list).
+ */
 @Singleton
-class GenresRepositoryImpl
-    @Inject
-    constructor(
-        @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
-        private val genresMapper: GenresMapper,
-        private val dataSource: GenresDataSource,
-    ) : GenresRepository {
-        override suspend fun genreList(): Flow<ResponseState<List<GenreModel>>> =
-            flow {
-                emit(dataSource.genreList())
-            }.mapper(genresMapper)
-                .onError(NetworkErrorMapper())
-                .flowOn(ioDispatcher)
-    }
+class GenresRepositoryImpl @Inject constructor(
+    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
+    private val genresMapper: GenresMapper,
+    private val dataSource: GenresDataSource,
+) : GenresRepository {
+    override suspend fun genreList(): Flow<ResponseState<List<GenreModel>>> =
+        flow {
+            emit(dataSource.genreList())
+        }.mapper(genresMapper)
+            .onError(NetworkErrorMapper())
+            .flowOn(ioDispatcher)
+}
